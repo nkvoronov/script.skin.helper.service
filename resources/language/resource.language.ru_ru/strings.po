@@ -1,0 +1,829 @@
+# Kodi language file
+# Addon Name: Skin Helper Service
+# Addon id: script.skin.helper.service
+# Addon Provider: marcelveldt
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC-Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
+"POT-Creation-Date: 2014-10-26 17:05+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "#32000"
+msgid "Favourites"
+msgstr "Избранное"
+
+msgctxt "#32001"
+msgid "Favourite Media"
+msgstr "Избранное медиа"
+
+msgctxt "#32002"
+msgid "Next Episodes"
+msgstr "Следующие эпизоды"
+
+msgctxt "#32003"
+msgid "Recommended Movies"
+msgstr "Рекомендованные фильмы"
+
+msgctxt "#32004"
+msgid "Recommended Media"
+msgstr "Рекомендованное медиа"
+
+msgctxt "#32005"
+msgid "Recent Media"
+msgstr "Последние медиа"
+
+msgctxt "#32006"
+msgid "Similar Movies"
+msgstr "Похожие фильмы"
+
+msgctxt "#32007"
+msgid "In progress and Recommended Media"
+msgstr "Просматриваемое рекомендованное медиа"
+
+msgctxt "#32008"
+msgid "Next Episodes"
+msgstr "Следующие эпизоды"
+
+msgctxt "#32009"
+msgid "Next Episodes"
+msgstr "Следующие эпизоды"
+
+msgctxt "#32010"
+msgid "Next Episodes"
+msgstr "Следующие эпизоды"
+
+msgctxt "#32011"
+msgid "Pick a color..."
+msgstr "Выберите цвет..."
+
+msgctxt "#32012"
+msgid "Color value:"
+msgstr "Значение цвета:"
+
+msgctxt "#32013"
+msgid "None"
+msgstr "Нет"
+
+msgctxt "#32014"
+msgid "Select a color theme"
+msgstr "Выбрать цветовую тему"
+
+msgctxt "#32015"
+msgid "Background overlay texture"
+msgstr "Фон наложения текстуры"
+
+msgctxt "#32016"
+msgid "Browse custom image for background overlay"
+msgstr "Просмотр пользовательского изображение для фона наложения"
+
+msgctxt "#32017"
+msgid "Enable/disable views"
+msgstr "Вкл./Выкл. Просмотры"
+
+msgctxt "#32018"
+msgid "Select a folder to create the backupfile"
+msgstr "Выберите папку для создания файла резервной копии"
+
+msgctxt "#32019"
+msgid "Export this theme to file"
+msgstr "Экспортировать эту тему в файл"
+
+msgctxt "#32020"
+msgid "Select skin backup file"
+msgstr "Выбрать файл резервной копии настроек обложки"
+
+msgctxt "#32021"
+msgid "Your colortheme is now available in the list of available themes"
+msgstr "Ваша цветовая тема теперь в списке доступных тем"
+
+msgctxt "#32022"
+msgid "Color theme imported succesfully"
+msgstr "Цветовая тема успешно импортирована"
+
+msgctxt "#32023"
+msgid "Enter a name for your color theme"
+msgstr "Введите имя для вашей цветовой темы"
+
+msgctxt "#32024"
+msgid "Screenshot of color theme (optional)"
+msgstr "Снимок экрана цветовой темы (необязательно)"
+
+msgctxt "#32025"
+msgid "User defined color theme"
+msgstr "Определить пользовательскую цветовую тему"
+
+msgctxt "#32026"
+msgid "Color theme created succesfully"
+msgstr "Цветовая тема создана успешно"
+
+msgctxt "#32027"
+msgid "Your colortheme is now available in the list of available themes"
+msgstr "Ваша цветовая тема теперь в списке доступных тем"
+
+msgctxt "#32028"
+msgid "Backup the skin settings"
+msgstr "Резервное копирование настроек обложки"
+
+msgctxt "#32029"
+msgid "Backupfile was succesfully created!"
+msgstr "Файл резервной копии был успешно создан!"
+
+msgctxt "#32030"
+msgid "An error has occured creating the backup!"
+msgstr "Произошла ошибка создания резервной копии!"
+
+msgctxt "#32031"
+msgid "Select skin backup file"
+msgstr "Выберите файл резервной копии обложки"
+
+msgctxt "#32032"
+msgid "Restore the skin settings"
+msgstr "Восстановление настроек обложки"
+
+msgctxt "#32033"
+msgid "Restoring..."
+msgstr "Восстановление..."
+
+msgctxt "#32034"
+msgid "Your backup is succesfully restored!"
+msgstr "Ваша резервная копия успешно восстановлена!"
+
+msgctxt "#32035"
+msgid "An error has occured while restoring the backup"
+msgstr "Произошла ошибка при восстановлении резервной копии"
+
+msgctxt "#32036"
+msgid "Reset the skin to default settings"
+msgstr "Сброс настроек обложки"
+
+msgctxt "#32037"
+msgid "Are you sure you want to reset the skin to default settings ?"
+msgstr "Вы уверены, что хотите сбросить настройки обложки на значения по умолчанию ?"
+
+msgctxt "#32038"
+msgid "Global media fanart background"
+msgstr "Глобальный медиа фанарт фона"
+
+msgctxt "#32039"
+msgid "Random movies background"
+msgstr "Фон случайных фильмов"
+
+msgctxt "#32040"
+msgid "Recent movies background"
+msgstr "Фон последних фильмов"
+
+msgctxt "#32041"
+msgid "In progress movies background"
+msgstr "Фон просматриваемых фильмов"
+
+msgctxt "#32042"
+msgid "Unwatched movies background"
+msgstr "Фон непросматриваемых фильмов"
+
+msgctxt "#32043"
+msgid "Random Tv Shows background"
+msgstr "Фон случайных сериалов"
+
+msgctxt "#32044"
+msgid "Recent episodes background"
+msgstr "Фон последних эпизодов"
+
+msgctxt "#32045"
+msgid "In progress Tv Shows background"
+msgstr "Фон просматриваемых сериалов"
+
+msgctxt "#32046"
+msgid "Random pictures background"
+msgstr "Фон случайных изображений"
+
+msgctxt "#32047"
+msgid "Random music videos background"
+msgstr "Фон случайного муз. видео"
+
+msgctxt "#32048"
+msgid "Random music artists background"
+msgstr "Фон случайных исполнителей"
+
+msgctxt "#32049"
+msgid "Opacity"
+msgstr "Непрозрачность"
+
+msgctxt "#32050"
+msgid "Custom color"
+msgstr "Пользовательский цвет"
+
+msgctxt "#32051"
+msgid "Select busy spinner"
+msgstr "Выберите индикатор ожидания"
+
+msgctxt "#32052"
+msgid "Custom single image (gif)"
+msgstr "Одно пользовательское изображение (gif)"
+
+msgctxt "#32053"
+msgid "Custom multi image (path)"
+msgstr "Несколько пользовательских изображений (путь)"
+
+msgctxt "#32054"
+msgid "Select view"
+msgstr "Выбрать вид"
+
+msgctxt "#32055"
+msgid "My TV Shows Airing today"
+msgstr "Мои сериалы сегодня в эфире"
+
+msgctxt "#32056"
+msgid "Configure conditional backgrounds"
+msgstr "Настройка условных фонов"
+
+msgctxt "#32057"
+msgid "Setup backgrounds that will be activated on specified dates"
+msgstr "Установить фоны, которые будут активированы на указанные даты"
+
+msgctxt "#32058"
+msgid "Please enter a name for your conditional background"
+msgstr "Пожалуйста, введите имя для условного фона"
+
+msgctxt "#32059"
+msgid "Conditional background override"
+msgstr "Условный фон переопределение"
+
+msgctxt "#32060"
+msgid "Error while writing changes. Make sure you have filled in all fields correctly."
+msgstr "Ошибка при записи изменений. Убедитесь, что вы заполнили все поля правильно."
+
+msgctxt "#32061"
+msgid "Please select a background image"
+msgstr "Пожалуйста, выберите фоновое изображение"
+
+msgctxt "#32062"
+msgid "Smart Shortcuts"
+msgstr "Смарт ярлыки"
+
+msgctxt "#32063"
+msgid "Default Widgets"
+msgstr "Виджеты по умолчанию"
+
+msgctxt "#32064"
+msgid "Do you want to setup a single background or a folder with multiple backgrounds ?"
+msgstr "Вы хотите, установить один фон или папку с несколькими фонами?"
+
+msgctxt "#32065"
+msgid "Single"
+msgstr "Один"
+
+msgctxt "#32066"
+msgid "Multiple"
+msgstr "Несколько"
+
+msgctxt "#32067"
+msgid "Select image folder path"
+msgstr "Выберитье папку с изображениями"
+
+msgctxt "#32068"
+msgid "Please enter a filename for your backup"
+msgstr "Пожалуйста, введите имя файла для резервного копирования"
+
+msgctxt "#32069"
+msgid "Please enter the time that this theme should be activated (hh:mm in 24-hours format)"
+msgstr "Пожалуйста, введите время, когда эта тема будет активирована (чч:мм в 24-часовом формате)"
+
+msgctxt "#32070"
+msgid "Did you enter the time in the correct format ?"
+msgstr "Вы ввели время в нужном формате?"
+
+msgctxt "#32071"
+msgid "Activates every day at "
+msgstr "Активировать каждый день в"
+
+msgctxt "#32072"
+msgid "Go to Series level"
+msgstr "Перейти к уровню серий"
+
+msgctxt "#32073"
+msgid "Add new condition..."
+msgstr "Добавить новое условие ..."
+
+msgctxt "#32074"
+msgid "Add a new condition to activate a custom background on a selected timespan"
+msgstr "Добавить новое условие для активации пользовательского фона на выбранный отрезок времени"
+
+msgctxt "#32075"
+msgid "Delete or change ?"
+msgstr "Удалить или изменить?"
+
+msgctxt "#32076"
+msgid "Do you want to delete or change the existing entry ?"
+msgstr "Вы хотите, удалить или изменить существующую запись?"
+
+msgctxt "#32077"
+msgid "Change"
+msgstr "Изменить"
+
+msgctxt "#32078"
+msgid "Delete"
+msgstr "Удалить"
+
+msgctxt "#32079"
+msgid "Create Color Theme..."
+msgstr "Создать цветную тему..."
+
+msgctxt "#32080"
+msgid "Create new custom color theme based on your current skin color settings."
+msgstr "Создать новую пользоательскую цветовую тему на основе текущих настроек цвета обложки."
+
+msgctxt "#32081"
+msgid "Import Color Theme from file..."
+msgstr "Импорт цветовую тему из файла ..."
+
+msgctxt "#32082"
+msgid "Import a colortheme from file."
+msgstr "Импорт цветовую тему из файла."
+
+msgctxt "#32083"
+msgid "Apply this Color Theme"
+msgstr "Применить эту цветовую тему"
+
+msgctxt "#32084"
+msgid "Export this Color Theme to file"
+msgstr "Экспорт цветовую тему в файл"
+
+msgctxt "#32085"
+msgid "Manage Color Themes"
+msgstr "Управление цветом темы"
+
+msgctxt "#32086"
+msgid "In progress Media"
+msgstr "Просматриваемое медиа"
+
+msgctxt "#32087"
+msgid "Recently added songs"
+msgstr "Последние добавленные песни"
+
+msgctxt "#32088"
+msgid "Recently played songs"
+msgstr "Последние проигранные песни"
+
+msgctxt "#32089"
+msgid "Reset persistant cache"
+msgstr "Сбросить постоянный кэш"
+
+msgctxt "#32090"
+msgid "Are you sure you want to reset the permanent cache ? Warning: This will delete all contents of the folder "
+msgstr "Вы уверены, что хотите сбросить постоянный кэш ? Внимание: Это удалит все содержимое папки "
+
+msgctxt "#32091"
+msgid "The action completed sucesfully"
+msgstr "Действие успешно"
+
+msgctxt "#32092"
+msgid "The action completed with errors"
+msgstr "Действие завершено с ошибками"
+
+msgctxt "#32093"
+msgid "PVR Thumbs are disabled or not supported in this skin"
+msgstr "PVR Thumbs отключены или не поддерживаются в этой обложке"
+
+msgctxt "#32094"
+msgid "Use TMDB for lookups"
+msgstr "Использовать TMDB для поиска"
+
+msgctxt "#32095"
+msgid "Use extended images from Fanart.tv"
+msgstr "Использовать расширенные изображения из Fanart.tv"
+
+msgctxt "#32096"
+msgid "Use Google images for lookups"
+msgstr "Использовать Google изображения для поиска"
+
+msgctxt "#32097"
+msgid "Use Youtube for lookups"
+msgstr "Использовать Youtube для поиска"
+
+msgctxt "#32098"
+msgid "Use local video Library for lookups"
+msgstr "Использовать библиотеку видео для поиска"
+
+msgctxt "#32099"
+msgid "Custom (recordings) folder for lookups"
+msgstr "Пользовательская папка для поиска"
+
+msgctxt "#32100"
+msgid "Use thumb provided by PVR addon"
+msgstr "Использовать Thumb предоставленный PVR аддоном"
+
+msgctxt "#32101"
+msgid "Download artwork for PVR Recordings"
+msgstr "Скачать Artwork для PVR записей"
+
+msgctxt "#32102"
+msgid "Download artwork for PVR Guide entries"
+msgstr "Скачать Artwork для PVR программы"
+
+msgctxt "#32103"
+msgid "Location of the persistant cache"
+msgstr "Расположение постоянного кэша"
+
+msgctxt "#32104"
+msgid "Live TV channels (with artwork)"
+msgstr "ТВ каналы (с Artwork)"
+
+msgctxt "#32105"
+msgid "Live TV Recordings (with artwork)"
+msgstr "ТВ записи (с Artwork)"
+
+msgctxt "#32106"
+msgid "Channels to ignore with lookups, seperate with ;"
+msgstr "Игнорировать каналы поисков, отдельные ;"
+
+msgctxt "#32107"
+msgid "Ignore titles with these words, seperate with ;"
+msgstr "Игнорировать названия с этими словами, разделённых ;"
+
+msgctxt "#32108"
+msgid "Directory structure for cache folder"
+msgstr "Структура каталогов для папки кэша"
+
+msgctxt "#32109"
+msgid "Programtitle (default)"
+msgstr "Название программы (по умолчанию)"
+
+msgctxt "#32110"
+msgid "Channelname\\Programtitle"
+msgstr "Channelname\\Programtitle"
+
+msgctxt "#32111"
+msgid "Channelname - Programtitle"
+msgstr "Название канала - Название программы"
+
+msgctxt "#32112"
+msgid "Words to ignore (strip) in titles, seperate with ;"
+msgstr "Игнорировать слова в названиях, разделённых ;"
+
+msgctxt "#32113"
+msgid "Random PVR fanart background"
+msgstr "Случайные PVR фанарт фон"
+
+msgctxt "#32114"
+msgid "Preferred language for TMDB metadata"
+msgstr "Предпочтительный язык для метаданных TMDB"
+
+msgctxt "#32115"
+msgid "Enable creation of wall/grid backgrounds"
+msgstr "Разрешить создание стен/сетки фонов"
+
+msgctxt "#32116"
+msgid "Prefer black & white for wall backgrounds"
+msgstr "Предпочтительно черный и белый для стен фонов"
+
+msgctxt "#32117"
+msgid "Random Movies Wall/Grid"
+msgstr "Случайные фильмы Стена/Сетка"
+
+msgctxt "#32118"
+msgid "Random Artists Wall/Grid"
+msgstr "Случайные исполнители Стена/Сетка"
+
+msgctxt "#32119"
+msgid "Random Albums Wall/Grid"
+msgstr "Случайные альбомы Стена/Сетка"
+
+msgctxt "#32120"
+msgid "PVR Artwork"
+msgstr "PVR Artwork"
+
+msgctxt "#32121"
+msgid "Backgrounds"
+msgstr "Фоны"
+
+msgctxt "#32122"
+msgid "Music Artwork"
+msgstr "Музыка Artwork"
+
+msgctxt "#32123"
+msgid "Enable online lookups for music artwork"
+msgstr "Разрешить онлайн поиск для музыкального Аrtwork"
+
+msgctxt "#32124"
+msgid "Lookup artwork in local music folders"
+msgstr "Поиск Аrtwork в папках музыки"
+
+msgctxt "#32125"
+msgid "Download artwork to local music folders"
+msgstr "Загрузить Аrtwork в папки музыки"
+
+msgctxt "#32126"
+msgid "Reset persistant cache"
+msgstr "Сбросить постоянный кэш"
+
+msgctxt "#32127"
+msgid "Random Tv Shows Wall/Grid"
+msgstr "Случайные серии Стена/Сетка"
+
+msgctxt "#32128"
+msgid "Only build the wall images once (reuse images)"
+msgstr "Строить стены изображений только один раз"
+
+msgctxt "#32129"
+msgid "Clear cache (rebuild all wall images)"
+msgstr "Очистить кэш (перестроить все стены изображений)"
+
+msgctxt "#32130"
+msgid "Similar TV Shows"
+msgstr "Похожие сериалы"
+
+msgctxt "#32131"
+msgid "Recommended albums"
+msgstr "Рекомендуемые альбомы"
+
+msgctxt "#32132"
+msgid "Recommended songs"
+msgstr "Рекомендуемые песни"
+
+msgctxt "#32133"
+msgid "PVR Channel groups"
+msgstr "PVR группы канала"
+
+msgctxt "#32134"
+msgid "Other"
+msgstr "Другие"
+
+msgctxt "#32135"
+msgid "Enable verbose debug logging"
+msgstr "Разрешить ведение подробного журнала отладки"
+
+msgctxt "#32136"
+msgid "Max number of extrafanarts to grab for music/pvr fanart"
+msgstr "Максимальное количество Extrafanart для музыки/PVR"
+
+msgctxt "#32137"
+msgid "Title's character splitter"
+msgstr "Название символа разделителя"
+
+msgctxt "#32138"
+msgid "Random videos background (movie/show/musicvideo)"
+msgstr "Фон случайное видео (фильм/сериал/муз. видео)"
+
+msgctxt "#32139"
+msgid "Recent videos background (movie or tvshow)"
+msgstr "Фон последнее видео (фильм или сериал)"
+
+msgctxt "#32140"
+msgid "In progress videos background (movie or tvshow)"
+msgstr "Фон просматриваемое видео (фильм или сериал)"
+
+msgctxt "#32141"
+msgid "Color Palette"
+msgstr "Цветовая палитра"
+
+msgctxt "#32142"
+msgid "Recently added music"
+msgstr "Последняя добавленная музыка"
+
+msgctxt "#32143"
+msgid "Artwork settings"
+msgstr "Artwork настройки"
+
+msgctxt "#32144"
+msgid "Refresh item (auto lookup)"
+msgstr "Обновить элемент (авто.)"
+
+msgctxt "#32145"
+msgid "Refresh item (manual lookup)"
+msgstr "Обновить элемент (ручн.)"
+
+msgctxt "#32146"
+msgid "Enter a name for the theme"
+msgstr "Введите имя для темы"
+
+msgctxt "#32147"
+msgid "Enter search phrase for lookup"
+msgstr "Введите поисковую фразу для поиска"
+
+msgctxt "#32148"
+msgid "Open Configuration"
+msgstr "Открыть настройки"
+
+msgctxt "#32149"
+msgid "Add channel to ignore list"
+msgstr "Добавить канал в список игнорирования"
+
+msgctxt "#32150"
+msgid "Add title to ignore list"
+msgstr "Добавить название в список игнорирования"
+
+msgctxt "#32151"
+msgid "PVR - Recent recordings"
+msgstr "PVR - Последние записи"
+
+msgctxt "#32152"
+msgid "PVR - Next unwatched recordings"
+msgstr "PVR - Следующие непросмотренные записи"
+
+msgctxt "#32153"
+msgid "PVR - TV Channels"
+msgstr "PVR - ТВ каналы"
+
+msgctxt "#32154"
+msgid "PVR - Timers"
+msgstr "PVR - Таймеры"
+
+msgctxt "#32155"
+msgid "Enable PVR artwork for Recordings/timers only"
+msgstr "Разрешить PVR Artwork только для записей/таймеров"
+
+msgctxt "#32156"
+msgid "Posters"
+msgstr "Постеры"
+
+msgctxt "#32157"
+msgid "Precache all music artwork"
+msgstr "Кешировать всю музыка Artwork"
+
+msgctxt "#32158"
+msgid "Are you sure you want to continue? This can take some time, depending on your collection size."
+msgstr "Вы уверены что хотите продолжить? Это может занять некоторое время, в зависимости от размера коллекции."
+
+msgctxt "#32159"
+msgid "Allow existing artwork to be overwritten with better quality"
+msgstr "Разрешить переписовать существующий Artwork, Artwork с лучшим качеством"
+
+msgctxt "#32160"
+msgid "Maximum number of wall images to create for each background"
+msgstr "Максимальное количество изображений на стене для каждого фона"
+
+msgctxt "#32161"
+msgid "Black & White"
+msgstr "Черное и Белое"
+
+msgctxt "#32162"
+msgid "Similar Media"
+msgstr "Похожее медиа"
+
+msgctxt "#32163"
+msgid "Widgets"
+msgstr "Виджеты"
+
+msgctxt "#32164"
+msgid "Enable artwork lookups for music/pvr widgets"
+msgstr "Разрешить Artwork поиск для музыка/PVR виджетов"
+
+msgctxt "#32165"
+msgid "Show specials in episode widgets"
+msgstr "Показать предложения в  виджете эпизодов"
+
+msgctxt "#32166"
+msgid "Browse albums instead of playing for album widgets"
+msgstr "Просмотр альбомов вместо того, чтобы играть виджет альбома"
+
+msgctxt "#32167"
+msgid "In-progress episodes"
+msgstr "Просматриваемые эпизоды"
+
+msgctxt "#32168"
+msgid "In-progress movies"
+msgstr "Просматриваемые фильмы"
+
+msgctxt "#32169"
+msgid "In-progress and recommended movies"
+msgstr "Просматриваемые и рекомендуемые фильмы"
+
+msgctxt "#32170"
+msgid "PVR - TV Channels (with artwork)"
+msgstr "PVR - ТВ каналы (с Artwork)"
+
+msgctxt "#32171"
+msgid "PVR - Next unwatched recordings (reversed)"
+msgstr "PVR - След. непросмотреные записи (в обр. порядке)"
+
+msgctxt "#32172"
+msgid "Precache all artwork"
+msgstr "Кешировать весь Artwork"
+
+msgctxt "#32173"
+msgid "Manual select Animated Poster"
+msgstr "Выбрать вручную анимированный постер"
+
+msgctxt "#32174"
+msgid "Manual select Animated fanart"
+msgstr "Выбрать вручную анимированный фанарт"
+
+msgctxt "#32175"
+msgid "Select Animated artwork"
+msgstr "Выбрать анимированный Artwork"
+
+msgctxt "#32176"
+msgid "Browse for image..."
+msgstr "Обзор для изображений..."
+
+msgctxt "#32177"
+msgid "Custom folder with music artwork"
+msgstr "Пользовательская папка с музыка Artwork"
+
+msgctxt "#32178"
+msgid "Lookup artwork in custom folder"
+msgstr "Поиск Artwork в пользовательской папке"
+
+msgctxt "#32179"
+msgid "Contextmenu"
+msgstr "Контексное меню"
+
+msgctxt "#32180"
+msgid "Show contextmenu for music artwork"
+msgstr "Показывать контксное меню для музыка Artwork"
+
+msgctxt "#32181"
+msgid "Show contextmenu for pvr artwork"
+msgstr "Показывать контксное меню для PVR Artwork"
+
+msgctxt "#32182"
+msgid "Show contextmenu for animated artwork"
+msgstr "Показывать контксное меню для анимированного Artwork"
+
+msgctxt "#32183"
+msgid "Show series-level button in contextmenu"
+msgstr "Показать кнопку уровня сериив в контексном меню"
+
+msgctxt "#32184"
+msgid "Skip online lookup if all artwork is found locally"
+msgstr "Пропустить онлайн-поиск, если все Artwork найдено локально"
+
+msgctxt "#32185"
+msgid "Random movies"
+msgstr "Случайные фильмы"
+
+msgctxt "#32186"
+msgid "In-progress and random movies"
+msgstr "Просматриваемые и случайные фильмы"
+
+msgctxt "#32187"
+msgid "Random albums"
+msgstr "Случайные альбомы"
+
+msgctxt "#32188"
+msgid "Random songs"
+msgstr "Случайные песни"
+
+msgctxt "#32189"
+msgid "Hide watched items in video widgets"
+msgstr "Скрыть просмотренные элементы в виджетах видео"
+
+msgctxt "#32190"
+msgid "Only use in-progress shows in next episodes widget"
+msgstr "Использовать только просматревыемые сериалы в виджете след. эпизод"
+
+msgctxt "#32191"
+msgid "Recommended Tv Shows"
+msgstr "Рекомендуемые сериалы"
+
+msgctxt "#32192"
+msgid "Recently added movies"
+msgstr "Последние добавленные фильмы"
+
+msgctxt "#32193"
+msgid "Recently added episodes"
+msgstr "Последние добавленные эпизоды"
+
+msgctxt "#32194"
+msgid "Recently added musicvideos"
+msgstr "Последние добавленные муз. видео"
+
+msgctxt "#32195"
+msgid "Random Tv Shows"
+msgstr "Случайные сериалы"
+
+msgctxt "#32196"
+msgid "Only use images from recordings for random PVR background"
+msgstr "Использовать только изображения из записей для случайного фона PVR"
+
+msgctxt "#32197"
+msgid "Unaired episodes"
+msgstr "Эпизоды не в эфире"
+
+msgctxt "#32198"
+msgid "Next airing episodes"
+msgstr "След. эпизоды в эфире"
+
+msgctxt "#32199"
+msgid "Use custom MusicBrainz mirror"
+msgstr "Использовать пользовательские зеркала MusicBrainz"
+
+msgctxt "#32200"
+msgid "Random videos background (movie/show)"
+msgstr "Фон случайное видео (фильмы/сериалы)"
+
+msgctxt "#32201"
+msgid "TMDB Results"
+msgstr "Результаты TMDB"
+
+msgctxt "#32202"
+msgid "Google Images Results"
+msgstr "Результаты изображения Google"
