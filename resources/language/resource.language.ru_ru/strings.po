@@ -738,7 +738,7 @@ msgstr "Контексное меню"
 
 msgctxt "#32180"
 msgid "Show contextmenu for music artwork"
-msgstr "Показывать контксное меню для иллюстраций музыки"
+msgstr "Показывать контексное меню для иллюстраций музыки"
 
 msgctxt "#32181"
 msgid "Show contextmenu for pvr artwork"
