@@ -166,7 +166,7 @@ msgstr "Сброс настроек обложки"
 
 msgctxt "#32037"
 msgid "Are you sure you want to reset the skin to default settings ?"
-msgstr "Вы уверены, что хотите сбросить настройки обложки на значения по умолчанию ?"
+msgstr "Вы уверены, что хотите сбросить настройки обложки до значений по умолчанию ?"
 
 msgctxt "#32038"
 msgid "Global media fanart background"
@@ -390,7 +390,7 @@ msgstr "Действие завершено с ошибками"
 
 msgctxt "#32093"
 msgid "PVR Thumbs are disabled or not supported in this skin"
-msgstr "PVR Thumbs отключены или не поддерживаются в этой обложке"
+msgstr "PVR эскизы отключены или не поддерживаются в этой обложке"
 
 msgctxt "#32094"
 msgid "Use TMDB for lookups"
@@ -402,7 +402,7 @@ msgstr "Использовать расширенные изображения �
 
 msgctxt "#32096"
 msgid "Use Google images for lookups"
-msgstr "Использовать Google изображения для поиска"
+msgstr "Использовать Изображения Google для поиска"
 
 msgctxt "#32097"
 msgid "Use Youtube for lookups"
@@ -418,15 +418,15 @@ msgstr "Пользовательская папка для поиска"
 
 msgctxt "#32100"
 msgid "Use thumb provided by PVR addon"
-msgstr "Использовать Thumb предоставленный PVR аддоном"
+msgstr "Использовать эскизы предоставленный PVR аддоном"
 
 msgctxt "#32101"
 msgid "Download artwork for PVR Recordings"
-msgstr "Скачать Artwork для PVR записей"
+msgstr "Скачать иллюстрации для PVR записей"
 
 msgctxt "#32102"
 msgid "Download artwork for PVR Guide entries"
-msgstr "Скачать Artwork для PVR программы"
+msgstr "Скачать иллюстрации для PVR программы"
 
 msgctxt "#32103"
 msgid "Location of the persistant cache"
@@ -434,11 +434,11 @@ msgstr "Расположение постоянного кэша"
 
 msgctxt "#32104"
 msgid "Live TV channels (with artwork)"
-msgstr "ТВ каналы (с Artwork)"
+msgstr "ТВ каналы (с иллюстрациями)"
 
 msgctxt "#32105"
 msgid "Live TV Recordings (with artwork)"
-msgstr "ТВ записи (с Artwork)"
+msgstr "ТВ записи (с иллюстрациями)"
 
 msgctxt "#32106"
 msgid "Channels to ignore with lookups, seperate with ;"
@@ -498,7 +498,7 @@ msgstr "Случайные альбомы Стена/Сетка"
 
 msgctxt "#32120"
 msgid "PVR Artwork"
-msgstr "PVR Artwork"
+msgstr "PVR иллюстраций"
 
 msgctxt "#32121"
 msgid "Backgrounds"
@@ -506,19 +506,19 @@ msgstr "Фоны"
 
 msgctxt "#32122"
 msgid "Music Artwork"
-msgstr "Музыка Artwork"
+msgstr "Муз. иллюстрации"
 
 msgctxt "#32123"
 msgid "Enable online lookups for music artwork"
-msgstr "Разрешить онлайн поиск для музыкального Аrtwork"
+msgstr "Разрешить онлайн поиск для иллюстраций музыки"
 
 msgctxt "#32124"
 msgid "Lookup artwork in local music folders"
-msgstr "Поиск Аrtwork в папках музыки"
+msgstr "Поиск иллюстраций в папках музыки"
 
 msgctxt "#32125"
 msgid "Download artwork to local music folders"
-msgstr "Загрузить Аrtwork в папки музыки"
+msgstr "Загрузить иллюстрации в папки музыки"
 
 msgctxt "#32126"
 msgid "Reset persistant cache"
@@ -554,7 +554,7 @@ msgstr "PVR группы канала"
 
 msgctxt "#32134"
 msgid "Other"
-msgstr "Другие"
+msgstr "Другое"
 
 msgctxt "#32135"
 msgid "Enable verbose debug logging"
@@ -562,7 +562,7 @@ msgstr "Разрешить ведение подробного журнала о
 
 msgctxt "#32136"
 msgid "Max number of extrafanarts to grab for music/pvr fanart"
-msgstr "Максимальное количество Extrafanart для музыки/PVR"
+msgstr "Максимальное количество экстра фанартов для музыки/PVR"
 
 msgctxt "#32137"
 msgid "Title's character splitter"
@@ -590,7 +590,7 @@ msgstr "Последняя добавленная музыка"
 
 msgctxt "#32143"
 msgid "Artwork settings"
-msgstr "Artwork настройки"
+msgstr "Настройки иллюстраций"
 
 msgctxt "#32144"
 msgid "Refresh item (auto lookup)"
@@ -638,7 +638,7 @@ msgstr "PVR - Таймеры"
 
 msgctxt "#32155"
 msgid "Enable PVR artwork for Recordings/timers only"
-msgstr "Разрешить PVR Artwork только для записей/таймеров"
+msgstr "Разрешить PVR иллюстрации только для записей/таймеров"
 
 msgctxt "#32156"
 msgid "Posters"
@@ -646,7 +646,7 @@ msgstr "Постеры"
 
 msgctxt "#32157"
 msgid "Precache all music artwork"
-msgstr "Кешировать всю музыка Artwork"
+msgstr "Кешировать все иллюстрации музыки"
 
 msgctxt "#32158"
 msgid "Are you sure you want to continue? This can take some time, depending on your collection size."
@@ -654,7 +654,7 @@ msgstr "Вы уверены что хотите продолжить? Это м�
 
 msgctxt "#32159"
 msgid "Allow existing artwork to be overwritten with better quality"
-msgstr "Разрешить переписовать существующий Artwork, Artwork с лучшим качеством"
+msgstr "Разрешить переписовать существующие иллюстрации, иллюстрациями с лучшим качеством"
 
 msgctxt "#32160"
 msgid "Maximum number of wall images to create for each background"
@@ -674,11 +674,11 @@ msgstr "Виджеты"
 
 msgctxt "#32164"
 msgid "Enable artwork lookups for music/pvr widgets"
-msgstr "Разрешить Artwork поиск для музыка/PVR виджетов"
+msgstr "Разрешить поиск иллюстраций для музыка/PVR виджетов"
 
 msgctxt "#32165"
 msgid "Show specials in episode widgets"
-msgstr "Показать предложения в  виджете эпизодов"
+msgstr "Показать предложения в виджете эпизодов"
 
 msgctxt "#32166"
 msgid "Browse albums instead of playing for album widgets"
@@ -698,7 +698,7 @@ msgstr "Просматриваемые и рекомендуемые фильм�
 
 msgctxt "#32170"
 msgid "PVR - TV Channels (with artwork)"
-msgstr "PVR - ТВ каналы (с Artwork)"
+msgstr "PVR - ТВ каналы (с иллюстрациями)"
 
 msgctxt "#32171"
 msgid "PVR - Next unwatched recordings (reversed)"
@@ -706,7 +706,7 @@ msgstr "PVR - След. непросмотреные записи (в обр. п
 
 msgctxt "#32172"
 msgid "Precache all artwork"
-msgstr "Кешировать весь Artwork"
+msgstr "Кешировать все иллюстрации"
 
 msgctxt "#32173"
 msgid "Manual select Animated Poster"
@@ -718,7 +718,7 @@ msgstr "Выбрать вручную анимированный фанарт"
 
 msgctxt "#32175"
 msgid "Select Animated artwork"
-msgstr "Выбрать анимированный Artwork"
+msgstr "Выбрать анимированные иллюстрации"
 
 msgctxt "#32176"
 msgid "Browse for image..."
@@ -726,11 +726,11 @@ msgstr "Обзор для изображений..."
 
 msgctxt "#32177"
 msgid "Custom folder with music artwork"
-msgstr "Пользовательская папка с музыка Artwork"
+msgstr "Пользовательская папка с иллюстрациями музыки"
 
 msgctxt "#32178"
 msgid "Lookup artwork in custom folder"
-msgstr "Поиск Artwork в пользовательской папке"
+msgstr "Поиск иллюстраций в пользовательской папке"
 
 msgctxt "#32179"
 msgid "Contextmenu"
@@ -738,23 +738,23 @@ msgstr "Контексное меню"
 
 msgctxt "#32180"
 msgid "Show contextmenu for music artwork"
-msgstr "Показывать контксное меню для музыка Artwork"
+msgstr "Показывать контксное меню для иллюстраций музыки"
 
 msgctxt "#32181"
 msgid "Show contextmenu for pvr artwork"
-msgstr "Показывать контксное меню для PVR Artwork"
+msgstr "Показывать контексное меню для PVR иллюстраций"
 
 msgctxt "#32182"
 msgid "Show contextmenu for animated artwork"
-msgstr "Показывать контксное меню для анимированного Artwork"
+msgstr "Показывать контексное меню для анимированных иллюстрации"
 
 msgctxt "#32183"
 msgid "Show series-level button in contextmenu"
-msgstr "Показать кнопку уровня сериив в контексном меню"
+msgstr "Показать кнопку уровня серий в контексном меню"
 
 msgctxt "#32184"
 msgid "Skip online lookup if all artwork is found locally"
-msgstr "Пропустить онлайн-поиск, если все Artwork найдено локально"
+msgstr "Пропустить онлайн поиск, если все иллюстрации найдено локально"
 
 msgctxt "#32185"
 msgid "Random movies"
@@ -778,7 +778,7 @@ msgstr "Скрыть просмотренные элементы в виджет
 
 msgctxt "#32190"
 msgid "Only use in-progress shows in next episodes widget"
-msgstr "Использовать только просматревыемые сериалы в виджете след. эпизод"
+msgstr "Использовать только просм. сериалы в виджете след. эпизод"
 
 msgctxt "#32191"
 msgid "Recommended Tv Shows"
@@ -822,8 +822,8 @@ msgstr "Фон случайное видео (фильмы/сериалы)"
 
 msgctxt "#32201"
 msgid "TMDB Results"
-msgstr "Результаты TMDB"
+msgstr "Результаты (TMDB)"
 
 msgctxt "#32202"
 msgid "Google Images Results"
-msgstr "Результаты изображения Google"
+msgstr "Результаты (Изображения Google)"
