@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-	<addon id="script.skin.helper.service" name="Skin Helper Service" version="1.0.110.006" provider-name="marcelveldt,YLLOW_DRAGON">
+<addon id="script.skin.helper.service" name="Skin Helper Service" version="1.0.110.007" provider-name="marcelveldt,YLLOW_DRAGON">
 	<requires>
 		<import addon="xbmc.python" version="2.13.0"/>
 		<import addon="xbmc.addon" version="12.0.0"/>
@@ -10,8 +10,7 @@
         <import addon="script.module.thetvdb" version="0.0.1" />
         <import addon="script.module.musicbrainz" version="0.0.1" />
         <import addon="script.module.simplecache" version="1.0.0"/>
-	</requires>
-	
+	</requires>	
     <extension point="kodi.context.item">
         <menu id="kodi.core.main">
             <item library="resources\lib\ContextMenu_animatedart.py">
@@ -34,12 +33,10 @@
                 <visible>!IsEmpty(Window(Home).Property(SkinHelper.enablecontextmenu_series)) + Container.Content(episodes) + !StringCompare(Container.ListItem(0).TvShowTitle,Container.ListItem(1).TvShowTitle)</visible>
             </item>
         </menu>
-	</extension>
-    
+	</extension>    
     <extension point="xbmc.python.library" library="default.py" />
 	<extension point="xbmc.python.pluginsource" library="plugin.py" />
 	<extension library="service.py" point="xbmc.service" start="login" />
-
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en_GB">Helper service for Kodi skins</summary>
         <summary lang="ru_RU">Сервис помощник для KODI обложек</summary>
