@@ -11,7 +11,7 @@ import xbmc, xbmcaddon
 import time
 
 class Main:
-    
+
     lastSkin = ""
 
     def checkSkinVersion(self):
@@ -28,21 +28,21 @@ class Main:
                 mainmodule.correctSkinSettings()
         except Exception as exc:
             log_exception(__name__,exc)
-    
+
     def __init__(self):
-        
+
         WINDOW.clearProperty("SkinHelperShutdownRequested")
         monitor = KodiMonitor()
         listItemMonitor = ListItemMonitor()
         backgroundsUpdater = BackgroundsUpdater()
         webService = WebService()
         widget_task_interval = 520
-                   
+
         #start the extra threads
         listItemMonitor.start()
         backgroundsUpdater.start()
         webService.start()
-        
+
         #run as service, check skin every 10 seconds and keep the other threads alive
         while not (monitor.abortRequested()):
             self.checkSkinVersion()
@@ -53,13 +53,13 @@ class Main:
                 widget_task_interval = 0
             monitor.waitForAbort(10)
 
-            # Abort was requested while waiting. We should exit
+        #Abort was requested while waiting. We should exit
         WINDOW.setProperty("SkinHelperShutdownRequested","shutdown")
         log_msg('Shutdown requested !',xbmc.LOGNOTICE)
-            #stop the extra threads
-            backgroundsUpdater.stop()
-            listItemMonitor.stop()
-            webService.stop()
+        #stop the extra threads
+        backgroundsUpdater.stop()
+        listItemMonitor.stop()
+        webService.stop()
 
 log_msg('skin helper service version %s started' % ADDON_VERSION,xbmc.LOGNOTICE)
 Main()
