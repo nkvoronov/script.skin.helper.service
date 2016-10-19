@@ -1,5 +1,4 @@
 import xbmcgui,xbmc
-from traceback import print_exc
 
 class DialogContextMenu( xbmcgui.WindowXMLDialog ):
     def __init__( self, *args, **kwargs ):
@@ -12,8 +11,7 @@ class DialogContextMenu( xbmcgui.WindowXMLDialog ):
         try:
             self.fav_list = self.getControl(6)
             self.getControl(3).setVisible(False)
-        except:
-            print_exc()
+        except Exception:
             self.fav_list = self.getControl(3)
 
         self.getControl(5).setVisible(False)
@@ -59,11 +57,11 @@ class DialogSelectSmall( xbmcgui.WindowXMLDialog ):
         self.getControl(1).setLabel(self.windowtitle)
         try:
             self.getControl(7).setLabel(xbmc.getLocalizedString(222))
-        except: pass
-        
+        except Exception: pass
+
         if self.multiselect == False:
             self.getControl(5).setVisible(False)
-        
+
         self.fav_list = self.getControl(3)
 
         for item in self.listing :
@@ -74,7 +72,7 @@ class DialogSelectSmall( xbmcgui.WindowXMLDialog ):
 
         self.setFocus(self.fav_list)
         try: self.fav_list.selectItem(self.autoFocusId)
-        except: self.fav_list.selectItem(0)
+        except Exception: self.fav_list.selectItem(0)
         self.totalitems = len(self.listing)
 
     def onAction(self, action):
@@ -88,10 +86,10 @@ class DialogSelectSmall( xbmcgui.WindowXMLDialog ):
                         itemsList.append(itemcount)
                     itemcount -= 1
                 self.result = itemsList
-            else:        
+            else:
                 self.result = -1
             self.close()
-        
+
         # select item in list
         if (action.getId() == 7 or action.getId() == 100) and xbmc.getCondVisibility("Control.HasFocus(3)"):
             if self.multiselect == True:
@@ -104,10 +102,10 @@ class DialogSelectSmall( xbmcgui.WindowXMLDialog ):
                 num = self.fav_list.getSelectedPosition()
                 self.result = num
                 self.close()
-        
+
 
     def onClick(self, controlID):
-        
+
         # OK button
         if controlID == 5:
             itemsList = []
@@ -119,7 +117,7 @@ class DialogSelectSmall( xbmcgui.WindowXMLDialog ):
                 itemcount -= 1
             self.result = itemsList
             self.close()
-        
+
         # Other buttons (including cancel)
         else:
             self.result = -1
@@ -143,9 +141,8 @@ class DialogSelectBig( xbmcgui.WindowXMLDialog ):
             self.getControl(3).setVisible(False)
             try:
                 self.getControl(7).setLabel(xbmc.getLocalizedString(222))
-            except: pass
-        except:
-            print_exc()
+            except Exception: pass
+        except Exception:
             self.fav_list = self.getControl(3)
 
         self.getControl(5).setVisible(False)
@@ -157,7 +154,7 @@ class DialogSelectBig( xbmcgui.WindowXMLDialog ):
 
         self.setFocus(self.fav_list)
         try: self.fav_list.selectItem(self.autoFocusId)
-        except: self.fav_list.selectItem(0)
+        except Exception: self.fav_list.selectItem(0)
 
     def onAction(self, action):
         if action.getId() in ( 9, 10, 92, 216, 247, 257, 275, 61467, 61448, ):
@@ -175,4 +172,4 @@ class DialogSelectBig( xbmcgui.WindowXMLDialog ):
 
     def onFocus(self, controlID):
         pass
-        
+

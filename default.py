@@ -5,12 +5,13 @@ import urlparse
 import xbmc,xbmcgui,xbmcplugin,xbmcvfs
 try:
     import resources.lib.MainModule as mainmodule
-    import resources.lib.Utils as utils
-except:
+    import resources.lib.utils as utils
+except Exception:
     xbmcgui.Dialog().ok(heading="Skin Helper Service", line1="Installation is missing files. Please reinstall the skin helper service addon to fix this issue.")
 
 class Main:
     
+    @classmethod
     def getParams(self):
         #extract the params from the called script path
         params = {}
@@ -24,7 +25,7 @@ class Main:
                 params[paramname] = paramvalue
                 params[paramname.upper()] = paramvalue
         
-        utils.logMsg("Parameter string: " + str(params))
+        utils.log_msg("Parameter string: " + str(params))
         return params
         
         
@@ -34,7 +35,7 @@ class Main:
             print warning in log and call the external script with the same parameters
         '''
         action = params.get("ACTION","").upper()
-        utils.logMsg("Deprecated method: %s. Please call %s directly" %(action,newaddon),0 )
+        utils.log_msg("Deprecated method: %s. Please call %s directly" %(action,newaddon), xbmc.LOGWARNING )
         paramstring = ""
         for key, value in params.iteritems():
             paramstring += ",%s=%s" %(key,value)
@@ -49,7 +50,7 @@ class Main:
     
     def __init__(self):
         
-        utils.logMsg('started loading script entry')
+        utils.log_msg('started loading script entry')
         params = self.getParams()
         
         if params:
@@ -67,9 +68,7 @@ class Main:
             elif action == "SEARCHYOUTUBE":
                 title = params.get("TITLE",None)
                 windowHeader = params.get("HEADER","")
-                autoplay = params.get("AUTOPLAY","")
-                windowed = params.get("WINDOWED","")
-                mainmodule.searchYouTube(title,windowHeader,autoplay,windowed)
+                mainmodule.searchYouTube(title,windowHeader)
             
             elif action == "SETFOCUS":
                 control = params.get("CONTROL",None)
@@ -84,47 +83,42 @@ class Main:
                         xbmc.sleep(50)
                         count += 1
                 
+            elif action == "SETWIDGETCONTAINER":
+                controls = params.get("CONTROLS","").split("-")
+                xbmc.sleep(150)
+                for i in range(10):
+                    for control in controls:
+                        if xbmc.getCondVisibility("Control.IsVisible(%s) + IntegerGreaterThan(Container(%s).NumItems,0)" %(control,control)):
+                            utils.WINDOW.setProperty("SkinHelper.WidgetContainer",control)
+                            return
+                    xbmc.sleep(50)
+                utils.WINDOW.clearProperty("SkinHelper.WidgetContainer")
+
             elif action == "SETFORCEDVIEW":
                 contenttype = params.get("CONTENTTYPE",None)
                 mainmodule.setForcedView(contenttype)
 
             elif action == "SAVESKINIMAGE":
-                skinstring = params.get("SKINSTRING","")
-                windowHeader = params.get("HEADER","")
                 multi = params.get("MULTI","") == "true"
-                mainmodule.saveSkinImage(skinstring,multi,windowHeader)
+                mainmodule.saveSkinImage(params.get("SKINSTRING",""),multi,params.get("HEADER",""))
             
             elif action == "SETSKINSETTING":
-                setting = params.get("SETTING","")
-                windowHeader = params.get("HEADER","")
-                originalId = params.get("ID","")
-                mainmodule.setSkinSetting(setting=setting,windowHeader=windowHeader,originalId=originalId)
+                mainmodule.setSkinSetting(setting=params.get("SETTING",""),windowHeader=params.get("HEADER",""),originalId=params.get("ID",""))
                 
             elif action == "SETSKINCONSTANT":
-                setting = params.get("SETTING","")
-                windowHeader = params.get("HEADER","")
-                value = params.get("VALUE","")
-                mainmodule.setSkinConstant(setting,windowHeader,value)
+                mainmodule.setSkinConstant(params.get("SETTING",""), params.get("HEADER",""), params.get("VALUE",""))
                 
             elif action == "SETSKINCONSTANTS":
-                settings = params.get("SETTINGS","").split("|")
-                values = params.get("VALUES","").split("|")
-                mainmodule.setSkinConstant(settings,values)
+                mainmodule.setSkinConstant(params.get("SETTINGS","").split("|"), params.get("VALUES","").split("|"))
                 
             elif action == "SETSKINSHORTCUTSPROPERTY":
-                setting = params.get("SETTING","")
-                windowHeader = params.get("HEADER","")
-                property = params.get("PROPERTY","")
-                mainmodule.setSkinShortCutsProperty(setting,windowHeader,property)
+                mainmodule.setSkinShortCutsProperty(params.get("SETTING",""), params.get("HEADER",""), params.get("PROPERTY",""))
             
             elif action == "TOGGLEKODISETTING":
-                kodisetting = params.get("SETTING")
-                mainmodule.toggleKodiSetting(kodisetting)
+                mainmodule.toggleKodiSetting(params.get("SETTING"))
                 
             elif action == "SETKODISETTING":
-                kodisetting = params.get("SETTING")
-                value = params.get("VALUE")
-                mainmodule.setKodiSetting(kodisetting,value)
+                mainmodule.setKodiSetting(params.get("SETTING"), params.get("VALUE"))
             
             elif action == "ENABLEVIEWS":
                 mainmodule.enableViews()
@@ -160,7 +154,7 @@ class Main:
                     if not dbid or dbid == "-1": dbid = xbmc.getInfoLabel("%sListItem.Property(DBID)"%widgetContainerPrefix).decode('utf-8')
                     if dbid == "-1": dbid = ""
                     dbtype = xbmc.getInfoLabel("%sListItem.DBTYPE"%widgetContainerPrefix).decode('utf-8')
-                    utils.logMsg("dbtype: %s - dbid: %s" %(dbtype,dbid))
+                    utils.log_msg("dbtype: %s - dbid: %s" %(dbtype,dbid))
                     if not dbtype: dbtype = xbmc.getInfoLabel("%sListItem.Property(DBTYPE)"%widgetContainerPrefix).decode('utf-8')
                     if not dbtype:
                         db_type = xbmc.getInfoLabel("%sListItem.Property(type)"%widgetContainerPrefix).decode('utf-8')
@@ -219,7 +213,7 @@ class Main:
                 mainmodule.selectBusyTexture()
                 
             elif action == "CACHEALLMUSICART": 
-                import resources.lib.ArtworkUtils as artworkutils
+                import resources.lib.Artworkutils as artworkutils
                 artworkutils.preCacheAllMusicArt()
 
             elif action == "RESETCACHE":
@@ -354,10 +348,35 @@ class Main:
                 
                 xbmc.executebuiltin("Skin.SetString(%s,%s)" %(skinstring,percentage))    
 
+            elif action == "PLAYTRAILER":
+                #auto play windowed trailer inside video listing
+                if not xbmc.getCondVisibility("Player.HasMedia | Container.Scrolling | Container.OnNext | Container.OnPrevious | !IsEmpty(Window(Home).Property(traileractionbusy))"):
+                    utils.WINDOW.setProperty("traileractionbusy","traileractionbusy")
+                    widgetContainer = params.get("WIDGETCONTAINER","")
+                    trailerMode = params.get("MODE","").replace("auto_","")
+                    allowYoutube = params.get("YOUTUBE","") == "true"
+                    if not trailerMode:
+                        trailerMode = "windowed"
+                    if widgetContainer:
+                        widgetContainerPrefix = "Container(%s)."%widgetContainer
+                    else: widgetContainerPrefix = ""
+
+                    liTitle = xbmc.getInfoLabel("%sListItem.Title" %widgetContainerPrefix).decode('utf-8')
+                    liTrailer = xbmc.getInfoLabel("%sListItem.Trailer" %widgetContainerPrefix).decode('utf-8')
+                    if not liTrailer and allowYoutube:
+                        liTrailer = mainmodule.searchYouTube("%s Trailer"%liTitle,"",True)
+                    xbmc.Monitor().waitForAbort(3) #always wait a bit to prevent trailer start playing when we're scrolling the list
+                    if liTrailer and (liTitle == xbmc.getInfoLabel("%sListItem.Title" %widgetContainerPrefix).decode('utf-8')):
+                        if trailerMode == "fullscreen" and liTrailer:
+                            xbmc.executebuiltin('PlayMedia("%s")' %liTrailer)
+                        else:
+                            xbmc.executebuiltin('PlayMedia("%s",1)' %liTrailer)
+                        utils.WINDOW.setProperty("TrailerPlaying",trailerMode)
+                    utils.WINDOW.clearProperty("traileractionbusy")
 
 if (__name__ == "__main__"):
     xbmc.executebuiltin( "Dialog.Close(busydialog)" )
     if not utils.WINDOW.getProperty("SkinHelperShutdownRequested"):
         Main()
     
-utils.logMsg('finished loading script entry')
+utils.log_msg('finished loading script entry')
