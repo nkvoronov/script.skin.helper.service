@@ -1,4 +1,4 @@
-from utils import *
+from Utils import *
 
 skin = xbmcaddon.Addon(id=xbmc.getSkinDir())
 userThemesDir = xbmc.translatePath(skin.getAddonInfo('profile')).decode("utf-8")
@@ -9,40 +9,38 @@ class ColorThemes(xbmcgui.WindowXMLDialog):
     userThemesPath = None
     skinThemesPath = None
     daynight = None
-
+    
     def __init__(self, *args, **kwargs):
         xbmcgui.WindowXMLDialog.__init__(self, *args, **kwargs)
-
+        
         self.userThemesPath = os.path.join(userThemesDir,"themes") + os.sep
         self.skinThemesPath = xbmc.translatePath("special://skin/extras/skinthemes/").decode("utf-8")
-
+    
     def setDayNightTheme(self,item):
         selectedTheme = item.getLabel()
-        #set a day/night theme
+        #set a day/night theme 
         if self.daynight:
             currenttimevalue = xbmc.getInfoLabel("Skin.String(SkinHelper.ColorTheme.%s.time)" %self.daynight).decode("utf-8")
             if not currenttimevalue:
                 if self.daynight == "night": currenttimevalue = "20:00"
                 else: currenttimevalue = "07:00"
             timevalue = xbmcgui.Dialog().input(ADDON.getLocalizedString(32069),currenttimevalue, type=xbmcgui.INPUT_ALPHANUM).decode("utf-8")
-
+            
             try:
                 #check if the time is valid
                 dt = datetime(*(time.strptime(timevalue, "%H:%M")[0:6]))
-                del dt
                 xbmc.executebuiltin(try_encode("Skin.SetString(SkinHelper.ColorTheme.%s.theme,%s)" % (self.daynight,selectedTheme)))
                 xbmc.executebuiltin(try_encode("Skin.SetString(SkinHelper.ColorTheme.%s.time,%s)" % (self.daynight,timevalue)))
                 xbmc.executebuiltin(try_encode("Skin.SetString(SkinHelper.ColorTheme.%s,%s  (%s %s))" % (self.daynight,selectedTheme,ADDON.getLocalizedString(32071),timevalue)))
                 xbmc.executebuiltin(try_encode("Skin.SetString(SkinHelper.ColorTheme.%s.file,%s)" % (self.daynight,item.getProperty("filename"))))
-            except Exception:
-                exc_trace = format_exc(sys.exc_info())
-                log_msg(exc_trace,xbmc.LOGDEBUG)
+            except:
+                print_exc()
                 xbmcgui.Dialog().ok(xbmc.getLocalizedString(329), ADDON.getLocalizedString(32070))
 
         self.closeDialog()
-
+    
     def backupColorTheme(self, themeName, themeFile):
-
+        
         import zipfile
         backup_path = get_browse_dialog(dlg_type=3,heading=ADDON.getLocalizedString(32018)).decode("utf-8")
         themeName = themeName.replace(" " + xbmc.getLocalizedString(461),"")
@@ -62,55 +60,55 @@ class ColorThemes(xbmcgui.WindowXMLDialog):
             zf.close()
             xbmcvfs.copy(backup_path_temp + ".zip", backup_path + ".zip")
             xbmc.executebuiltin( "Dialog.Close(busydialog)" )
-
+           
     def removeColorTheme(self,file):
         file = file.split(os.sep)[-1]
         themeName = file.replace(".theme","")
         xbmcvfs.delete(os.path.join(self.userThemesPath,themeName + ".jpg"))
         xbmcvfs.delete(os.path.join(self.userThemesPath,themeName + ".theme"))
         self.refreshListing()
-
+        
     def renameColorTheme(self,file,themeNameOld):
 
         dialog = xbmcgui.Dialog()
         themeNameNew = dialog.input(ADDON.getLocalizedString(32146), themeNameOld.decode('utf-8'), type=xbmcgui.INPUT_ALPHANUM).decode("utf-8")
         if not themeNameNew:
             return
-
+            
         f = open(file,"r")
         data = f.read()
         f.close()
-
+        
         f = open(file,"w")
         data = data.replace(themeNameOld.decode('utf-8'), themeNameNew)
         f.write(data)
         f.close()
-
+        
         if xbmcvfs.exists(file.replace(".theme",".jpg")):
             xbmcvfs.rename(file.replace(".theme",".jpg"), os.path.join(self.userThemesPath,themeNameNew + ".jpg"))
         xbmcvfs.rename(file, os.path.join(self.userThemesPath,themeNameNew + ".theme"))
         self.refreshListing()
-
+    
     def setIconForColorTheme(self,file):
         file = file.split(os.sep)[-1]
         themeName = file.replace(".theme","")
-
+        
         dialog = xbmcgui.Dialog()
         custom_thumbnail = dialog.browse( 2 , xbmc.getLocalizedString(1030), 'files')
-
+        
         if custom_thumbnail:
             xbmcvfs.delete(os.path.join(self.userThemesPath,themeName + ".jpg"))
             xbmcvfs.copy(custom_thumbnail, os.path.join(self.userThemesPath, themeName + ".jpg"))
 
         self.refreshListing()
-
+    
     def refreshListing(self):
-
+        
         #clear list first
         self.themesList.reset()
-
+        
         activetheme = xbmc.getInfoLabel("$INFO[Skin.String(SkinHelper.LastColorTheme)]").decode("utf-8")
-
+        
         #add import and create items on top of the list
         listitem = xbmcgui.ListItem(label=ADDON.getLocalizedString(32079), iconImage="DefaultAddonSkin.png")
         desc = ADDON.getLocalizedString(32080)
@@ -119,7 +117,7 @@ class ColorThemes(xbmcgui.WindowXMLDialog):
         listitem.setLabel2(desc)
         listitem.setProperty("type","add")
         self.themesList.addItem(listitem)
-
+        
         listitem = xbmcgui.ListItem(label=ADDON.getLocalizedString(32081), iconImage="DefaultAddonSkin.png")
         desc = ADDON.getLocalizedString(32082)
         listitem.setProperty("description",desc)
@@ -127,8 +125,8 @@ class ColorThemes(xbmcgui.WindowXMLDialog):
         listitem.setLabel2(desc)
         listitem.setProperty("type","import")
         self.themesList.addItem(listitem)
-
-
+        
+        
         #get all skin defined themes
         dirs, files = xbmcvfs.listdir(self.skinThemesPath)
         for file in files:
@@ -137,7 +135,7 @@ class ColorThemes(xbmcgui.WindowXMLDialog):
                 f = open(self.skinThemesPath+file,"r")
                 importstring = json.load(f)
                 f.close()
-                for skinsetting in importstring:
+                for count, skinsetting in enumerate(importstring):
                     if skinsetting[0] == ("DESCRIPTION"):
                         desc = skinsetting[1]
                     if skinsetting[0] == ("THEMENAME"):
@@ -154,7 +152,7 @@ class ColorThemes(xbmcgui.WindowXMLDialog):
                 listitem.setLabel2(desc)
                 listitem.setProperty("type","skin")
                 self.themesList.addItem(listitem)
-
+        
         #get all user defined themes
         dirs, files = xbmcvfs.listdir(self.userThemesPath)
         for file in files:
@@ -175,41 +173,47 @@ class ColorThemes(xbmcgui.WindowXMLDialog):
                 listitem.setLabel2(desc)
                 listitem.setProperty("type","user")
                 self.themesList.addItem(listitem)
-
+        
         xbmc.sleep(150)
-
+    
     def onInit(self):
         self.action_exitkeys_id = [10, 13]
 
         if not xbmcvfs.exists(self.userThemesPath):
             xbmcvfs.mkdir(self.userThemesPath)
-
+        
         self.themesList = self.getControl(6)
-
+        
         self.getControl(1).setLabel(ADDON.getLocalizedString(32014))
         self.getControl(5).setLabel(xbmc.getLocalizedString(186))
         self.getControl(5).setVisible(True)
         self.getControl(3).setVisible(False)
         try:
             self.getControl(7).setVisible(False)
-        except Exception: pass
-
+        except: pass
+        
         list = self.refreshListing()
         xbmc.executebuiltin("Control.SetFocus(6)")
 
     def onFocus(self, controlId):
         pass
-
+        
     def onAction(self, action):
 
-        if action.getId() in ( 9, 10, 92, 216, 247, 257, 275, 61467, 61448, ):
+        ACTION_CANCEL_DIALOG = ( 9, 10, 92, 216, 247, 257, 275, 61467, 61448, )
+        ACTION_SHOW_INFO = ( 11, )
+        ACTION_SELECT_ITEM = 7
+        ACTION_PARENT_DIR = 9
+        ACTION_CONTEXT_MENU = 117
+        
+        if action.getId() in ACTION_CANCEL_DIALOG:
             self.closeDialog()
 
     def closeDialog(self):
         self.close()
-
+        
     def onClick(self, controlID):
-
+                
         if(controlID == 6):
             item = self.themesList.getSelectedItem()
             type = item.getProperty("type")
@@ -258,23 +262,23 @@ def loadColorTheme(file):
     skincolor = None
     skinfont = None
     currentSkinTheme = xbmc.getInfoLabel("Skin.CurrentTheme")
-
+    
     currentSkinFont = None
     json_response = xbmc.executeJSONRPC('{"jsonrpc":"2.0", "id":1, "method":"Settings.GetSettingValue","params":{"setting":"lookandfeel.font"}}')
     jsonobject = json.loads(json_response.decode('utf-8','replace'))
     if(jsonobject.has_key('result')):
         if(jsonobject["result"].has_key('value')):
             currentSkinFont = jsonobject["result"]["value"]
-
+    
     currentSkinColors = None
     json_response = xbmc.executeJSONRPC('{"jsonrpc":"2.0", "id":1, "method":"Settings.GetSettingValue","params":{"setting":"lookandfeel.skincolors"}}')
     jsonobject = json.loads(json_response.decode('utf-8','replace'))
     if(jsonobject.has_key('result')):
         if(jsonobject["result"].has_key('value')):
             currentSkinColors = jsonobject["result"]["value"]
-
+    
     settingslist = set()
-    for skinsetting in importstring:
+    for count, skinsetting in enumerate(importstring):
         if skinsetting[0] == "SKINTHEME":
             skintheme = skinsetting[1].decode('utf-8')
         elif skinsetting[0] == "SKINCOLORS":
@@ -286,10 +290,10 @@ def loadColorTheme(file):
         elif skinsetting[0] == "DESCRIPTION":
             xbmc.executebuiltin("Skin.SetString(SkinHelper.LastColorTheme.Description,%s)" % try_encode(skinsetting[1]))
         elif skinsetting[1].startswith("SkinHelper.ColorTheme"): continue
-        else:
+        else:    
             #some legacy..
             setting = skinsetting[1]
-
+            
             if setting.startswith("TITANSKIN"): setting = setting.replace("TITANSKIN.", "")
             if setting.startswith("."): setting = setting[1:]
             if not setting in settingslist:
@@ -305,8 +309,8 @@ def loadColorTheme(file):
                     else:
                         xbmc.executebuiltin("Skin.Reset(%s)" % try_encode(setting))
                 xbmc.sleep(30)
-
-    #change the skintheme, color and font if needed
+    
+    #change the skintheme, color and font if needed 
     if skintheme and currentSkinTheme != skintheme:
         xbmc.executeJSONRPC('{"jsonrpc":"2.0", "id":1, "method":"Settings.SetSettingValue","params":{"setting":"lookandfeel.skintheme","value":"%s"}}' %skintheme)
     if skincolor and currentSkinColors != skincolor:
@@ -315,7 +319,7 @@ def loadColorTheme(file):
         xbmc.executeJSONRPC('{"jsonrpc":"2.0", "id":1, "method":"Settings.SetSettingValue","params":{"setting":"lookandfeel.font","value":"%s"}}' %skinfont)
 
     xbmc.executebuiltin( "Dialog.Close(busydialog)" )
-
+            
 def get_browse_dialog(default="protocol://", heading="Browse", dlg_type=3, shares="files", mask="", use_thumbs=False, treat_as_folder=False):
     dialog = xbmcgui.Dialog()
     value = dialog.browse(dlg_type, heading, shares, mask, use_thumbs, treat_as_folder,)
@@ -332,60 +336,60 @@ def restoreColorTheme():
         if xbmcvfs.exists(temp_path):
             recursiveDelete(temp_path)
         xbmcvfs.mkdir(temp_path)
-
+        
         #unzip to temp
         if "\\" in zip_path:
             delim = "\\"
         else:
             delim = "/"
-
+        
         zip_temp = xbmc.translatePath('special://temp/' + zip_path.split(delim)[-1]).decode("utf-8")
         xbmcvfs.copy(zip_path,zip_temp)
         zfile = zipfile.ZipFile(zip_temp)
         zfile.extractall(temp_path)
         zfile.close()
         xbmcvfs.delete(zip_temp)
-
+        
         dirs, files = xbmcvfs.listdir(temp_path)
         for file in files:
             sourcefile = os.path.join(temp_path,file)
             destfile = os.path.join(userThemesPath,file)
             xbmcvfs.copy(sourcefile,destfile)
         xbmcgui.Dialog().ok(ADDON.getLocalizedString(32022), ADDON.getLocalizedString(32021))
-
+        
 def createColorTheme():
 
     try:
-        userThemesPath = os.path.join(userThemesDir,"themes") + os.sep
-
+        userThemesPath = os.path.join(userThemesDir,"themes") + os.sep   
+        
         currentSkinFont = None
         json_response = xbmc.executeJSONRPC('{"jsonrpc":"2.0", "id":1, "method":"Settings.GetSettingValue","params":{"setting":"lookandfeel.font"}}')
         jsonobject = json.loads(json_response.decode('utf-8','replace'))
         if(jsonobject.has_key('result')):
             if(jsonobject["result"].has_key('value')):
                 currentSkinFont = jsonobject["result"]["value"]
-
+        
         currentSkinColors = None
         json_response = xbmc.executeJSONRPC('{"jsonrpc":"2.0", "id":1, "method":"Settings.GetSettingValue","params":{"setting":"lookandfeel.skincolors"}}')
         jsonobject = json.loads(json_response.decode('utf-8','replace'))
         if(jsonobject.has_key('result')):
             if(jsonobject["result"].has_key('value')):
                 currentSkinColors = jsonobject["result"]["value"]
-
-
+        
+        
         #user has to enter name for the theme
         dialog = xbmcgui.Dialog()
         themeName = dialog.input(ADDON.getLocalizedString(32023), type=xbmcgui.INPUT_ALPHANUM).decode("utf-8")
         if not themeName:
             return
-
+        
         xbmc.executebuiltin( "ActivateWindow(busydialog)" )
-        xbmc.executebuiltin("Skin.SetString(SkinHelper.LastColorTheme,%s)" %themeName.encode("utf-8"))
-
+        xbmc.executebuiltin("Skin.SetString(SkinHelper.LastColorTheme,%s)" %themeName.encode("utf-8"))    
+        
         #add screenshot
         dialog = xbmcgui.Dialog()
         custom_thumbnail = dialog.browse( 2 , ADDON.getLocalizedString(32024), 'files')
-
+        
         if custom_thumbnail:
             xbmcvfs.copy(custom_thumbnail, os.path.join(userThemesPath, themeName + ".jpg"))
 
@@ -399,7 +403,7 @@ def createColorTheme():
             newlist.append(("SKINTHEME", xbmc.getInfoLabel("Skin.CurrentTheme")))
             newlist.append(("SKINFONT", currentSkinFont))
             newlist.append(("SKINCOLORS", currentSkinColors))
-
+            
             #look for any images in the skin settings and translate them so they can be included in the theme backup
             for skinsetting in skinsettingslist:
                 setting_type = skinsetting[0]
@@ -416,7 +420,7 @@ def createColorTheme():
                             newimage_vfs = "special://profile/addon_data/%s/themes/%s"%(xbmc.getSkinDir(),newimage)
                             skinsetting = (setting_type, setting_name, newimage_vfs)
                 newlist.append(skinsetting)
-
+            
             #save guisettings
             text_file_path = os.path.join(userThemesPath, themeName + ".theme")
             text_file = xbmcvfs.File(text_file_path, "w")
@@ -427,3 +431,4 @@ def createColorTheme():
     except Exception as e:
         xbmc.executebuiltin( "Dialog.Close(busydialog)" )
         xbmcgui.Dialog().ok(ADDON.getLocalizedString(32028), ADDON.getLocalizedString(32030), str(e))
+  

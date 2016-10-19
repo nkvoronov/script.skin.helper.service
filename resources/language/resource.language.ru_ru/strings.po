@@ -827,7 +827,3 @@ msgstr "Результаты (TMDB)"
 msgctxt "#32202"
 msgid "Google Images Results"
 msgstr "Результаты (Изображения Google)"
-
-msgctxt "#32203"
-msgid "IMDB Top250 Movies in library"
-msgstr "IMDB Top 250 фильмов в библиотеке"
