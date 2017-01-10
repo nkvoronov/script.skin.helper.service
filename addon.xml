@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-	<addon id="script.skin.helper.service" name="Skin Helper Service" version="1.0.143" provider-name="marcelveldt">
+	<addon id="script.skin.helper.service" name="Skin Helper Service" version="1.0.143.009" provider-name="marcelveldt, YLLOW_DRAGON">
 	<requires>
 		<import addon="xbmc.python" version="2.13.0"/>
 		<import addon="xbmc.addon" version="12.0.0"/>
@@ -41,13 +41,16 @@
 	<extension library="service.py" point="xbmc.service" start="login" />
 
 	<extension point="xbmc.addon.metadata">
-		<summary lang="en">Helper service for Kodi skins</summary>
-        <description>Helper service for Kodi skins</description>
+		<summary lang="en_GB">Helper service for Kodi skins</summary>
+        <summary lang="ru_RU">Сервис помощник для KODI обложек</summary>
+        <description lang="en_GB">Helper service for Kodi skins</description>
+        <description lang="ru_RU">Сервис помощник для KODI обложек</description>
 		<language></language>
 		<platform>all</platform>
 		<license>GPL v2.0</license>
 		<forum>http://forum.kodi.tv/showthread.php?tid=235676</forum>
 		<website></website>
-		<source>https://github.com/marcelveldt/script.skin.helper.service</source>
+        <email>nkvoronov@gmail.com</email>
+		<source>https://github.com/nkvoronov/script.skin.helper.service.git</source>
 	</extension>
 </addon>
