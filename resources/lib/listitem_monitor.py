@@ -330,10 +330,11 @@ class ListItemMonitor(threading.Thread):
 
                     # extended art
                     if self.enable_extendedart:
-                        if not (listitem["art"]["clearlogo"] or listitem["art"]["landscape"]):
-                            tmdbid = listitem.get("tmdb_id", "")
-                            listitem = extend_dict(listitem, self.artutils.get_extended_artwork(
-                                listitem["imdbnumber"], tvdbid, tmdbid, content_type))
+                        tmdbid = listitem.get("tmdb_id", "")
+                        listitem = extend_dict(
+                            listitem, self.artutils.get_extended_artwork(
+                                listitem["imdbnumber"], tvdbid, tmdbid, content_type), [
+                                "posters", "clearlogos", "banners"])
 
                 if self.exit:
                     return
@@ -473,12 +474,12 @@ class ListItemMonitor(threading.Thread):
     def get_listitem_details(content_type, prefix):
         '''collect all listitem properties/values we need'''
 
-        # collect all the infolabels we need
+        # collect all infolabels from a listitem
         listitem_details = {"art": {}}
         props = ["label", "title", "filenameandpath", "year", "genre", "path", "folderpath",
                  "art(fanart)", "art(poster)", "art(clearlogo)", "art(clearart)", "art(landscape)",
                  "fileextension", "duration", "plot", "plotoutline", "icon", "thumb", "label2",
-                 "dbtype", "dbid", "art(thumb)", "art(banner)"
+                 "dbtype", "dbid", "art(thumb)", "art(banner)", "art(discart)"
                  ]
         if content_type in ["movies", "tvshows", "seasons", "episodes", "musicvideos", "setmovies"]:
             props += ["art(characterart)", "studio", "tvshowtitle", "premiered", "director", "writer",
@@ -507,7 +508,9 @@ class ListItemMonitor(threading.Thread):
         # fix for folderpath
         if not listitem_details.get("path"):
             listitem_details["path"] = listitem_details["folderpath"]
-
+        # fix for thumb
+        if not "thumb" in listitem_details["art"] and "thumb" in listitem_details:
+            listitem_details["art"]["thumb"] = listitem_details["thumb"]
         return listitem_details
 
     def get_streamdetails(self, li_dbid, li_path, content_type):
