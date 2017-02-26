@@ -8,9 +8,8 @@
 '''
 
 from utils import log_msg, json, prepare_win_props, log_exception
-from artutils import process_method_on_list, extend_dict, get_clean_image
+from metadatautils import process_method_on_list, extend_dict, get_clean_image
 import xbmc
-import time
 
 
 class KodiMonitor(xbmc.Monitor):
@@ -22,10 +21,10 @@ class KodiMonitor(xbmc.Monitor):
 
     def __init__(self, **kwargs):
         xbmc.Monitor.__init__(self)
-        self.artutils = kwargs.get("artutils")
+        self.metadatautils = kwargs.get("metadatautils")
         self.win = kwargs.get("win")
         self.enable_animatedart = xbmc.getCondVisibility("Skin.HasSetting(SkinHelper.EnableAnimatedPosters)") == 1
-    
+
     def onNotification(self, sender, method, data):
         '''builtin function for the xbmc.Monitor class'''
         try:
@@ -79,38 +78,45 @@ class KodiMonitor(xbmc.Monitor):
 
     def process_db_update(self, media_type, dbid, transaction=False):
         '''precache/refresh items when a kodi db item gets updated/added'''
-        
+
         self.bgtasks += 1
 
         # item specific actions
         if dbid and media_type == "movie" and transaction and self.enable_animatedart:
-            movie = self.artutils.kodidb.movie(dbid)
+            movie = self.metadatautils.kodidb.movie(dbid)
             imdb_id = movie["imdbnumber"]
             if not imdb_id and "uniqueid" in movie:
                 for value in movie["uniqueid"]:
                     if value.startswith("tt"):
                         imdb_id = value
             if imdb_id and self.bgtasks < 2:
-                self.artutils.get_animated_artwork(imdb_id)
+                self.metadatautils.get_animated_artwork(imdb_id)
 
         if dbid and media_type in ["movie", "episode", "musicvideo"]:
-            self.artutils.get_streamdetails(dbid, media_type, ignore_cache=True)
+            self.metadatautils.get_streamdetails(dbid, media_type, ignore_cache=True)
             if transaction and self.bgtasks < 2:
                 self.artwork_downloader(media_type, dbid)
 
         # for music content we only flush the cache
-        if dbid and media_type == "song":
-            song = self.artutils.kodidb.song(dbid)
-            self.artutils.get_music_artwork(
-                song["artist"][0], song["album"], song["title"], str(
-                    song["disc"]), ignore_cache=True, flush_cache=True)
-        elif dbid and media_type == "album":
-            song = self.artutils.kodidb.album(dbid)
-            self.artutils.get_music_artwork(item["artist"][0], item["title"], ignore_cache=True, flush_cache=True)
-        elif dbid and media_type == "artist":
-            song = self.artutils.kodidb.artist(dbid)
-            self.artutils.get_music_artwork(item["artist"], ignore_cache=True, flush_cache=True)
-            
+        if dbid and (not transaction or self.bgtasks < 2):
+            if media_type == "song":
+                song = self.metadatautils.kodidb.song(dbid)
+                if song:
+                    self.metadatautils.get_music_artwork(
+                        song["artist"][0], song["album"], song["title"], str(
+                            song["disc"]), ignore_cache=True, flush_cache=True)
+            elif media_type == "album":
+                album = self.metadatautils.kodidb.album(dbid)
+                if album:
+                    self.metadatautils.get_music_artwork(
+                        album["artist"][0],
+                        album["title"],
+                        ignore_cache=True, flush_cache=True)
+            elif media_type == "artist":
+                artist = self.metadatautils.kodidb.artist(dbid)
+                if artist:
+                    self.metadatautils.get_music_artwork(artist["artist"], ignore_cache=True, flush_cache=True)
+
         # remove task
         self.bgtasks -= 1
 
@@ -167,34 +173,34 @@ class KodiMonitor(xbmc.Monitor):
         li_year = details["year"]
         li_imdb = details["imdbnumber"]
         li_showtitle = details["tvshowtitle"]
-        details = {"art": {} }
+        details = {"art": {}}
 
         # video content
         if mediatype in ["movie", "episode", "musicvideo"]:
-        
+
             # get imdb_id
-            li_imdb, li_tvdb = self.artutils.get_imdbtvdb_id(li_title, mediatype, li_year, li_imdb, li_showtitle)
+            li_imdb, li_tvdb = self.metadatautils.get_imdbtvdb_id(li_title, mediatype, li_year, li_imdb, li_showtitle)
 
             # generic video properties (studio, streamdetails, omdb, top250)
-            details = extend_dict(details, self.artutils.get_omdb_info(li_imdb))
+            details = extend_dict(details, self.metadatautils.get_omdb_info(li_imdb))
             if li_dbid:
-                details = extend_dict(details, self.artutils.get_streamdetails(li_dbid, mediatype))
-            details = extend_dict(details, self.artutils.get_top250_rating(li_imdb))
+                details = extend_dict(details, self.metadatautils.get_streamdetails(li_dbid, mediatype))
+            details = extend_dict(details, self.metadatautils.get_top250_rating(li_imdb))
 
             # tvshows-only properties (tvdb)
             if mediatype == "episode":
-                details = extend_dict(details, self.artutils.get_tvdb_details(li_imdb, li_tvdb))
+                details = extend_dict(details, self.metadatautils.get_tvdb_details(li_imdb, li_tvdb))
 
             # movies-only properties (tmdb, animated art)
             if mediatype == "movie":
-                details = extend_dict(details, self.artutils.get_tmdb_details(li_imdb))
+                details = extend_dict(details, self.metadatautils.get_tmdb_details(li_imdb))
                 if li_imdb and xbmc.getCondVisibility("Skin.HasSetting(SkinHelper.EnableAnimatedPosters)"):
-                    details = extend_dict(details, self.artutils.get_animated_artwork(li_imdb))
+                    details = extend_dict(details, self.metadatautils.get_animated_artwork(li_imdb))
 
             # extended art
             if xbmc.getCondVisibility("Skin.HasSetting(SkinHelper.EnableExtendedArt)"):
                 tmdbid = details.get("tmdb_id", "")
-                details = extend_dict(details, self.artutils.get_extended_artwork(
+                details = extend_dict(details, self.metadatautils.get_extended_artwork(
                     li_imdb, li_tvdb, tmdbid, mediatype))
 
         if li_title == xbmc.getInfoLabel("Player.Title").decode('utf-8'):
@@ -219,7 +225,7 @@ class KodiMonitor(xbmc.Monitor):
                     break
 
         if xbmc.getCondVisibility("Skin.HasSetting(SkinHelper.EnableMusicArt)") and li_artist:
-            result = self.artutils.get_music_artwork(li_artist, li_album, li_title, li_disc)
+            result = self.metadatautils.get_music_artwork(li_artist, li_album, li_title, li_disc)
             if result.get("extendedplot") and li_plot:
                 li_plot = li_plot.replace('\n', ' ').replace('\r', '').rstrip()
                 result["extendedplot"] = "%s -- %s" % (result["extendedplot"], li_plot)
@@ -233,7 +239,7 @@ class KodiMonitor(xbmc.Monitor):
                 "System.HasAddon(script.artwork.downloader) + Skin.HasSetting(EnableArtworkDownloader)"):
             if media_type == "episode":
                 media_type = "tvshow"
-                dbid = self.artutils.kodidb.episode(dbid)["tvshowid"]
+                dbid = self.metadatautils.kodidb.episode(dbid)["tvshowid"]
             xbmc.executebuiltin(
                 "RunScript(script.artwork.downloader,silent=true,mediatype=%s,dbid=%s)" % (media_type, dbid))
 
@@ -276,10 +282,10 @@ class KodiMonitor(xbmc.Monitor):
                 # pvr artwork
                 if xbmc.getCondVisibility("Skin.HasSetting(SkinHelper.EnablePVRThumbs)"):
                     li_genre = xbmc.getInfoLabel("VideoPlayer.Genre").decode('utf-8')
-                    pvrart = self.artutils.get_pvr_artwork(li_title, li_channel, li_genre)
+                    pvrart = self.metadatautils.get_pvr_artwork(li_title, li_channel, li_genre)
                     all_props = prepare_win_props(pvrart, u"SkinHelper.Player.")
                 # pvr channellogo
-                all_props.append(("SkinHelper.Player.ChannelLogo", self.artutils.get_channellogo(li_channel)))
+                all_props.append(("SkinHelper.Player.ChannelLogo", self.metadatautils.get_channellogo(li_channel)))
                 if last_title == li_title:
                     process_method_on_list(self.set_win_prop, all_props)
             self.waitForAbort(2)
@@ -303,7 +309,7 @@ class KodiMonitor(xbmc.Monitor):
         '''collect basic infolabels for the current item in the videoplayer'''
         details = {"art": {}}
         # normal properties
-        props = ["title", "filenameandpath", "year", "genre", "duration", "plot", "plotoutline", 
+        props = ["title", "filenameandpath", "year", "genre", "duration", "plot", "plotoutline",
                  "studio", "tvshowtitle", "premiered", "director", "writer", "season", "episode",
                  "artist", "album", "rating", "albumartist", "discnumber",
                  "firstaired", "mpaa", "tagline", "rating", "imdbnumber"
@@ -313,12 +319,13 @@ class KodiMonitor(xbmc.Monitor):
             details[prop] = propvalue
         # art properties
         props = ["fanart", "poster", "clearlogo", "clearart", "landscape",
-                 "characterart", "thumb", "banner", "discart", "tvshow.landscape", 
+                 "characterart", "thumb", "banner", "discart", "tvshow.landscape",
                  "tvshow.clearlogo", "tvshow.poster", "tvshow.fanart", "tvshow.banner"
                  ]
         for prop in props:
             propvalue = xbmc.getInfoLabel('Player.Art(%s)' % prop).decode('utf-8')
-            prop = prop.replace("tvshow.", "")
-            propvalue = get_clean_image(propvalue)
-            details["art"][prop] = propvalue
+            if propvalue:
+                prop = prop.replace("tvshow.", "")
+                propvalue = get_clean_image(propvalue)
+                details["art"][prop] = propvalue
         return details

@@ -18,7 +18,7 @@ from utils import log_msg, KODI_VERSION
 from utils import log_exception, get_current_content_type, ADDON_ID, recursive_delete_dir
 from dialogselect import DialogSelect
 from xml.dom.minidom import parse
-from artutils import KodiDb, process_method_on_list
+from metadatautils import KodiDb, process_method_on_list
 import urlparse
 import sys
 
@@ -166,10 +166,12 @@ class MainModule:
         else:
             return (None, None)
 
+    # pylint: disable-msg=too-many-local-variables
     def enableviews(self):
         '''show select dialog to enable/disable views'''
         all_views = []
         views_file = xbmc.translatePath('special://skin/extras/views.xml').decode("utf-8")
+        richlayout = self.params.get("richlayout", "") == "true"
         if xbmcvfs.exists(views_file):
             doc = parse(views_file)
             listing = doc.documentElement.getElementsByTagName('view')
@@ -177,18 +179,25 @@ class MainModule:
                 view_id = view.attributes['value'].nodeValue
                 label = xbmc.getLocalizedString(int(view.attributes['languageid'].nodeValue))
                 desc = label + " (" + str(view_id) + ")"
-                listitem = xbmcgui.ListItem(label=label, label2=desc)
+                image = "special://skin/extras/viewthumbs/%s.jpg" % view_id
+                listitem = xbmcgui.ListItem(label=label, label2=desc, iconImage=image)
                 listitem.setProperty("viewid", view_id)
                 if not xbmc.getCondVisibility("Skin.HasSetting(SkinHelper.view.Disabled.%s)" % view_id):
                     listitem.select(selected=True)
-                all_views.append(listitem)
+                excludefromdisable = False
+                try:
+                    excludefromdisable = view.attributes['excludefromdisable'].nodeValue == "true"
+                except Exception:
+                    pass
+                if not excludefromdisable:
+                    all_views.append(listitem)
 
         dialog = DialogSelect(
             "DialogSelect.xml",
             "",
             listing=all_views,
             windowtitle=self.addon.getLocalizedString(32013),
-            multiselect=True)
+            multiselect=True, richlayout=richlayout)
         dialog.doModal()
         result = dialog.result
         del dialog
@@ -201,6 +210,7 @@ class MainModule:
                 else:
                     # view is disabled
                     xbmc.executebuiltin("Skin.SetBool(SkinHelper.view.Disabled.%s)" % view_id)
+    # pylint: enable-msg=too-many-local-variables
 
     def setforcedview(self):
         '''helper that sets a forced view for a specific content type'''
@@ -210,7 +220,7 @@ class MainModule:
             if not current_view:
                 current_view = "0"
             view_id, view_label = self.selectview(content_type, current_view, True)
-            if view_id:
+            if view_id or view_label:
                 xbmc.executebuiltin("Skin.SetString(SkinHelper.ForcedViews.%s,%s)" % (content_type, view_id))
                 xbmc.executebuiltin("Skin.SetString(SkinHelper.ForcedViews.%s.label,%s)" % (content_type, view_label))
 
@@ -286,6 +296,10 @@ class MainModule:
         '''helper to set focus on a list or control'''
         control = self.params.get("control")
         fallback = self.params.get("fallback")
+        position = self.params.get("position", "0")
+        relativeposition = self.params.get("relativeposition")
+        if relativeposition:
+            position = int(relativeposition) - 1
         count = 0
         if control:
             while not xbmc.getCondVisibility("Control.HasFocus(%s)" % control):
@@ -298,7 +312,7 @@ class MainModule:
                         xbmc.executebuiltin("Control.SetFocus(%s)" % fallback)
                     break
                 else:
-                    xbmc.executebuiltin("Control.SetFocus(%s)" % control)
+                    xbmc.executebuiltin("Control.SetFocus(%s,%s)" % (control, position))
                     xbmc.sleep(50)
                     count += 1
                     break

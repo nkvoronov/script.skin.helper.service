@@ -10,7 +10,7 @@
 import threading
 import thread
 from utils import log_msg, log_exception, get_current_content_type, kodi_json, prepare_win_props
-from artutils import extend_dict, get_clean_image, process_method_on_list
+from metadatautils import extend_dict, process_method_on_list
 import xbmc
 from simplecache import SimpleCache
 
@@ -36,11 +36,10 @@ class ListItemMonitor(threading.Thread):
     enable_pvrart = False
     enable_forcedviews = False
     bgtasks = 0
-    
 
     def __init__(self, *args, **kwargs):
         self.cache = SimpleCache()
-        self.artutils = kwargs.get("artutils")
+        self.metadatautils = kwargs.get("metadatautils")
         self.win = kwargs.get("win")
         self.kodimonitor = kwargs.get("monitor")
         self.event = threading.Event()
@@ -83,7 +82,7 @@ class ListItemMonitor(threading.Thread):
                 self.kodimonitor.waitForAbort(2)
                 self.delayed_task_interval += 2
                 self.last_listitem = ""
-                
+
             # skip when container scrolling
             elif xbmc.getCondVisibility(
                     "Container.OnScrollNext | Container.OnScrollPrevious | Container.Scrolling"):
@@ -121,9 +120,9 @@ class ListItemMonitor(threading.Thread):
             "Skin.HasSetting(SkinHelper.EnablePVRThumbs) + PVR.HasTVChannels") == 1
         self.enable_forcedviews = xbmc.getCondVisibility("Skin.HasSetting(SkinHelper.ForcedViews.Enabled)") == 1
         studiologos_path = xbmc.getInfoLabel("Skin.String(SkinHelper.StudioLogos.Path)").decode("utf-8")
-        if studiologos_path != self.artutils.studiologos_path:
+        if studiologos_path != self.metadatautils.studiologos_path:
             self.listitem_details = {}
-            self.artutils.studiologos_path = studiologos_path
+            self.metadatautils.studiologos_path = studiologos_path
         # set additional window props to control contextmenus as using the skinsetting gives unreliable results
         for skinsetting in ["EnableAnimatedPosters", "EnableMusicArt", "EnablePVRThumbs"]:
             if xbmc.getCondVisibility("Skin.HasSetting(SkinHelper.%s)" % skinsetting):
@@ -224,17 +223,22 @@ class ListItemMonitor(threading.Thread):
                 "Window.IsActive(visualisation) + Skin.HasSetting(SkinHelper.DisableScreenSaverOnFullScreenMusic)"):
             if not self.screensaver_disabled:
                 # disable screensaver when fullscreen music active
-                self.screensaver_setting = kodi_json('Settings.GetSettingValue', '{"setting":"screensaver.mode"}')
-                kodi_json('Settings.SetSettingValue', {"setting": "screensaver.mode", "value": None})
                 self.screensaver_disabled = True
-                log_msg(
-                    "Disabled screensaver while fullscreen music playback - previous setting: %s" %
-                    self.screensaver_setting)
-        elif self.screensaver_setting and self.screensaver_disabled:
+                screensaver_setting = kodi_json('Settings.GetSettingValue', '{"setting":"screensaver.mode"}')
+                if screensaver_setting:
+                    self.screensaver_setting = screensaver_setting
+                    kodi_json('Settings.SetSettingValue', {"setting": "screensaver.mode", "value": None})
+                    log_msg(
+                        "Disabled screensaver while fullscreen music playback - previous setting: %s" %
+                        self.screensaver_setting, xbmc.LOGNOTICE)
+        elif self.screensaver_disabled and self.screensaver_setting:
             # enable screensaver again after fullscreen music playback was ended
             kodi_json('Settings.SetSettingValue', {"setting": "screensaver.mode", "value": self.screensaver_setting})
             self.screensaver_disabled = False
-            log_msg("fullscreen music playback ended - restoring screensaver: %s" % self.screensaver_setting)
+            self.screensaver_setting = None
+            log_msg(
+                "fullscreen music playback ended - restoring screensaver: %s" %
+                self.screensaver_setting, xbmc.LOGNOTICE)
 
     @staticmethod
     def check_osd():
@@ -288,13 +292,13 @@ class ListItemMonitor(threading.Thread):
 
                 # music content
                 if content_type in ["albums", "artists", "songs"] and self.enable_musicart:
-                    listitem = extend_dict(listitem, self.artutils.get_music_artwork(
+                    listitem = extend_dict(listitem, self.metadatautils.get_music_artwork(
                         listitem["artist"], listitem["album"], listitem["title"], listitem["discnumber"]))
 
                 # moviesets
                 elif listitem["path"].startswith("videodb://movies/sets/") and listitem["dbid"]:
                     listitem = extend_dict(
-                        listitem, self.artutils.get_moviesetdetails(
+                        listitem, self.metadatautils.get_moviesetdetails(
                             listitem["title"], listitem["dbid"]))
                     content_type = "sets"
 
@@ -302,7 +306,7 @@ class ListItemMonitor(threading.Thread):
                 elif content_type in ["movies", "setmovies", "tvshows", "seasons", "episodes", "musicvideos"]:
 
                     # get imdb and tvdbid
-                    listitem["imdbnumber"], tvdbid = self.artutils.get_imdbtvdb_id(
+                    listitem["imdbnumber"], tvdbid = self.metadatautils.get_imdbtvdb_id(
                         listitem["title"], content_type,
                         listitem["year"], listitem["imdbnumber"], listitem["tvshowtitle"])
 
@@ -313,17 +317,18 @@ class ListItemMonitor(threading.Thread):
                         if not listitem["filenameandpath"]:
                             listitem["filenameandpath"] = listitem["path"]
                         if "videodb://" not in listitem["filenameandpath"]:
-                            listitem = extend_dict(listitem, self.artutils.get_extrafanart(listitem["filenameandpath"]))
+                            listitem = extend_dict(listitem,
+                                                   self.metadatautils.get_extrafanart(listitem["filenameandpath"]))
                     listitem = extend_dict(listitem, self.get_genres(listitem["genre"]))
-                    listitem = extend_dict(listitem, self.artutils.get_duration(listitem["duration"]))
-                    listitem = extend_dict(listitem, self.artutils.get_studio_logo(listitem["studio"]))
-                    listitem = extend_dict(listitem, self.artutils.get_omdb_info(listitem["imdbnumber"]))
+                    listitem = extend_dict(listitem, self.metadatautils.get_duration(listitem["duration"]))
+                    listitem = extend_dict(listitem, self.metadatautils.get_studio_logo(listitem["studio"]))
+                    listitem = extend_dict(listitem, self.metadatautils.get_omdb_info(listitem["imdbnumber"]))
                     listitem = extend_dict(
                         listitem, self.get_streamdetails(
                             listitem["dbid"], listitem["path"], content_type))
                     if self.exit:
                         return
-                    listitem = extend_dict(listitem, self.artutils.get_top250_rating(listitem["imdbnumber"]))
+                    listitem = extend_dict(listitem, self.metadatautils.get_top250_rating(listitem["imdbnumber"]))
 
                     if self.exit:
                         return
@@ -331,19 +336,21 @@ class ListItemMonitor(threading.Thread):
                     # tvshows-only properties (tvdb)
                     if content_type in ["tvshows", "seasons", "episodes"]:
                         listitem = extend_dict(listitem,
-                                               self.artutils.get_tvdb_details(listitem["imdbnumber"], tvdbid))
+                                               self.metadatautils.get_tvdb_details(listitem["imdbnumber"], tvdbid))
 
                     # movies-only properties (tmdb, animated art)
                     if content_type in ["movies", "setmovies"]:
-                        listitem = extend_dict(listitem, self.artutils.get_tmdb_details(listitem["imdbnumber"]))
+                        listitem = extend_dict(listitem, self.metadatautils.get_tmdb_details(listitem["imdbnumber"]))
                         if listitem["imdbnumber"] and self.enable_animatedart:
-                            listitem = extend_dict(listitem, self.artutils.get_animated_artwork(listitem["imdbnumber"]))
+                            listitem = extend_dict(
+                                listitem, self.metadatautils.get_animated_artwork(
+                                    listitem["imdbnumber"]))
 
                     # extended art
                     if self.enable_extendedart:
                         tmdbid = listitem.get("tmdb_id", "")
                         listitem = extend_dict(
-                            listitem, self.artutils.get_extended_artwork(
+                            listitem, self.metadatautils.get_extended_artwork(
                                 listitem["imdbnumber"], tvdbid, tmdbid, content_type), [
                                 "posters", "clearlogos", "banners"])
 
@@ -485,24 +492,21 @@ class ListItemMonitor(threading.Thread):
     @staticmethod
     def get_listitem_details(content_type, prefix):
         '''collect all listitem properties/values we need'''
-
-        # collect all infolabels from a listitem
         listitem_details = {"art": {}}
+
+        # generic properties
         props = ["label", "title", "filenameandpath", "year", "genre", "path", "folderpath",
-                 "art(fanart)", "art(poster)", "art(clearlogo)", "art(clearart)", "art(landscape)",
-                 "fileextension", "duration", "plot", "plotoutline", "icon", "thumb", "label2",
-                 "dbtype", "dbid", "art(thumb)", "art(banner)", "art(discart)"
-                 ]
+                 "fileextension", "duration", "plot", "plotoutline", "label2", "dbtype", "dbid", "icon", "thumb"]
+        # properties for media items
         if content_type in ["movies", "tvshows", "seasons", "episodes", "musicvideos", "setmovies"]:
-            props += ["art(characterart)", "studio", "tvshowtitle", "premiered", "director", "writer",
+            props += ["studio", "tvshowtitle", "premiered", "director", "writer",
                       "firstaired", "videoresolution", "audiocodec", "audiochannels", "videocodec", "videoaspect",
                       "subtitlelanguage", "audiolanguage", "mpaa", "isstereoscopic", "video3dformat",
-                      "tagline", "rating", "imdbnumber"]
-            if content_type in ["episodes"]:
-                props += ["season", "episode", "art(tvshow.landscape)", "art(tvshow.clearlogo)",
-                          "art(tvshow.poster)", "art(tvshow.fanart)", "art(tvshow.banner)"]
+                      "tagline", "rating", "imdbnumber", "season", "episode"]
+        # properties for music items
         elif content_type in ["musicvideos", "artists", "albums", "songs"]:
             props += ["artist", "album", "rating", "albumartist", "discnumber"]
+        # properties for pvr items
         elif content_type in ["tvchannels", "tvrecordings", "channels", "recordings", "timers", "tvtimers"]:
             props += ["channel", "startdatetime", "datetime", "date", "channelname",
                       "starttime", "startdate", "endtime", "enddate"]
@@ -510,18 +514,23 @@ class ListItemMonitor(threading.Thread):
             propvalue = xbmc.getInfoLabel('%sListItem.%s' % (prefix, prop)).decode('utf-8')
             if not propvalue or propvalue == "-1":
                 propvalue = xbmc.getInfoLabel('%sListItem.Property(%s)' % (prefix, prop)).decode('utf-8')
-            if "art(" in prop:
-                prop = prop.replace("art(", "").replace(")", "").replace("tvshow.", "")
-                propvalue = get_clean_image(propvalue)
+            listitem_details[prop] = propvalue
+
+        # artwork properties
+        artprops = ["fanart", "poster", "clearlogo", "clearart",
+                    "landscape", "thumb", "banner", "discart", "characterart"]
+        for prop in artprops:
+            propvalue = xbmc.getInfoLabel('%sListItem.Art(%s)' % (prefix, prop)).decode('utf-8')
+            if not propvalue:
+                propvalue = xbmc.getInfoLabel('%sListItem.Art(tvshow.%s)' % (prefix, prop)).decode('utf-8')
+            if propvalue:
                 listitem_details["art"][prop] = propvalue
-            else:
-                listitem_details[prop] = propvalue
 
         # fix for folderpath
-        if not listitem_details.get("path"):
+        if not listitem_details.get("path") and "folderpath" in listitem_details:
             listitem_details["path"] = listitem_details["folderpath"]
         # fix for thumb
-        if not "thumb" in listitem_details["art"] and "thumb" in listitem_details:
+        if "thumb" not in listitem_details["art"] and "thumb" in listitem_details:
             listitem_details["art"]["thumb"] = listitem_details["thumb"]
         return listitem_details
 
@@ -530,7 +539,7 @@ class ListItemMonitor(threading.Thread):
         details = {}
         if li_dbid and content_type in ["movies", "episodes",
                                         "musicvideos"] and not li_path.startswith("videodb://movies/sets/"):
-            details = self.artutils.get_streamdetails(li_dbid, content_type)
+            details = self.metadatautils.get_streamdetails(li_dbid, content_type)
         return details
 
     def set_forcedview(self, content_type):
@@ -564,13 +573,13 @@ class ListItemMonitor(threading.Thread):
                     "channelname"] and not listitem["title"]:
                 listitem["title"] = listitem["label"]
             listitem = extend_dict(
-                listitem, self.artutils.get_pvr_artwork(
+                listitem, self.metadatautils.get_pvr_artwork(
                     listitem["title"],
                     listitem["channelname"],
                     listitem["genre"]), ["title", "genre", "genres", "thumb"])
         # pvr channellogo
         if listitem["channelname"]:
-            listitem["art"]["ChannelLogo"] = self.artutils.get_channellogo(listitem["channelname"])
+            listitem["art"]["ChannelLogo"] = self.metadatautils.get_channellogo(listitem["channelname"])
         elif listitem.get("pvrchannel"):
-            listitem["art"]["ChannelLogo"] = self.artutils.get_channellogo(listitem["pvrchannel"])
+            listitem["art"]["ChannelLogo"] = self.metadatautils.get_channellogo(listitem["pvrchannel"])
         return listitem
