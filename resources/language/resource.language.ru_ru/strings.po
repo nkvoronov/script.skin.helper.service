@@ -115,3 +115,11 @@ msgstr "Параметры иллюстраций"
 msgctxt "#32024"
 msgid "Select Animated Art"
 msgstr "Выбрать анимированную иллюстрацию"
+
+msgctxt "#32025"
+msgid "Use submenu as widget"
+msgstr "Использовать подменю как виджет"
+
+msgctxt "#32025"
+msgid "RCB Most played games"
+msgstr "RCB Самые популярные игры"
