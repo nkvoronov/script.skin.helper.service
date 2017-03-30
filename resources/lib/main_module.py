@@ -14,7 +14,7 @@ import xbmcgui
 import xbmcaddon
 from skinsettings import SkinSettings
 from simplecache import SimpleCache
-from utils import log_msg, KODI_VERSION
+from utils import log_msg, KODI_VERSION, kodi_json
 from utils import log_exception, get_current_content_type, ADDON_ID, recursive_delete_dir
 from dialogselect import DialogSelect
 from xml.dom.minidom import parse
@@ -396,18 +396,16 @@ class MainModule:
             del valueint
         except Exception:
             pass
-        if value.lower() == "true":
-            value = 'true'
-        elif value.lower() == "false":
-            value = 'false'
+        if value.lower() in ["true", "false"]:
+            value = value.lower()
         elif is_int:
             value = '"%s"' % value
-        xbmc.executeJSONRPC('{"jsonrpc":"2.0", "id":1, "method":"Settings.SetSettingValue",\
-            "params":{"setting":"%s","value":%s}}' % (settingname, value))
+        params = {"setting": settingname, "value": value}
+        kodi_json("Settings.SetSettingValue", params)
 
     def playtrailer(self):
         '''auto play windowed trailer inside video listing'''
-        if not xbmc.getCondVisibility("Player.HasMedia | Container.Scrolling | Container.OnNext | "
+        if not xbmc.getCondVisibility("Container.Scrolling | Container.OnNext | "
                                       "Container.OnPrevious | !IsEmpty(Window(Home).Property(traileractionbusy))"):
             self.win.setProperty("traileractionbusy", "traileractionbusy")
             widget_container = self.params.get("widgetcontainer", "")
@@ -582,6 +580,8 @@ class MainModule:
         '''helper to show an OK dialog with a message'''
         headertxt = self.params.get("header")
         bodytxt = self.params.get("message")
+        if bodytxt.startswith("'") or bodytxt.startswith('"'):
+            bodytxt = bodytxt[1:-1]
         if bodytxt.startswith(" "):
             bodytxt = bodytxt[1:]
         if headertxt.startswith(" "):
@@ -596,6 +596,8 @@ class MainModule:
         bodytxt = self.params.get("message")
         yesactions = self.params.get("yesaction", "").split("|")
         noactions = self.params.get("noaction", "").split("|")
+        if bodytxt.startswith("'") or bodytxt.startswith('"'):
+            bodytxt = bodytxt[1:-1]
         if bodytxt.startswith(" "):
             bodytxt = bodytxt[1:]
         if headertxt.startswith(" "):
