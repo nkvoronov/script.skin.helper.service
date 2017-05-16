@@ -233,8 +233,19 @@ def prepare_win_props(details, prefix=u"SkinHelper.ListItem."):
 
 def merge_dict(dict_a, dict_b, allow_overwrite=False):
     '''append values to a dict without overwriting any existing values'''
+    if not dict_a and dict_b:
+        return dict_b
+    if not dict_b:
+        return dict_a
     result = dict_a.copy()
     for key, value in dict_b.iteritems():
         if (allow_overwrite or not key in dict_a or not dict_a[key]) and value:
             result[key] = value
     return result
+
+
+def clean_string(text):
+    '''strip quotes and spaces from begin and end of a string'''
+    text = text.strip("'\"")
+    text = text.strip()
+    return text
