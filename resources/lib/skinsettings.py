@@ -19,7 +19,6 @@ import xml.etree.ElementTree as xmltree
 import os
 import time
 
-
 class SkinSettings:
     '''several helpers that allows skinners to have custom dialogs for their skin settings and constants'''
     params = {}
