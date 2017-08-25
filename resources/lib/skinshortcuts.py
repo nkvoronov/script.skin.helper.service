@@ -9,7 +9,7 @@
 '''
 
 from utils import kodi_json, log_msg, urlencode, ADDON_ID, getCondVisibility
-from metadatautils import detect_plugin_content
+from metadatautils import MetadataUtils
 import xbmc
 import xbmcvfs
 import xbmcplugin
@@ -394,7 +394,9 @@ def playlists_widgets():
                     except Exception:
                         pass
                     if not media_type:
-                        media_type = detect_plugin_content(playlist)
+                        mutils = MetadataUtils()
+                        media_type = mutils.detect_plugin_content(playlist)
+                        del mutils
                     widgets.append([label, playlist, media_type])
     return widgets
 
@@ -418,22 +420,29 @@ def plugin_widgetlisting(pluginpath, sublevel=""):
             continue
         if item.get("filetype", "") == "file":
             continue
-        media_type = detect_plugin_content(item["file"])
+        mutils = MetadataUtils()
+        media_type = mutils.detect_plugin_content(item["file"])
+        del mutils
         if media_type == "empty":
             continue
         if media_type == "folder":
             content = "plugin://script.skin.helper.service?action=widgets&path=%s&sublevel=%s" % (
                 urlencode(item["file"]), label)
-        # add reload param for skinhelper and libraryprovider widgets
-        if "reload=" not in content and (
-                "script.skin.helper" in pluginpath or pluginpath == "service.library.data.provider"):
-            if "albums" in content or "songs" in content or "artists" in content:
-                reloadstr = "&reload=$INFO[Window(Home).Property(widgetreloadmusic)]"
-            elif ("pvr" in content or "media" in content or "favourite" in content) and "progress" not in content:
+        # add reload param for widgets
+        if "reload=" not in content:
+            if "movies" in content:
+                reloadstr = "&reload=$INFO[Window(Home).Property(widgetreload-movies)]"
+            elif "episodes" in content:
+                reloadstr = "&reload=$INFO[Window(Home).Property(widgetreload-episodes)]"
+            elif "tvshows" in content:
+                reloadstr = "&reload=$INFO[Window(Home).Property(widgetreload-tvshows)]"
+            elif "musicvideos" in content:
+                reloadstr = "&reload=$INFO[Window(Home).Property(widgetreload-musicvideos)]"
+            elif "albums" in content or "songs" in content or "artists" in content:
+                reloadstr = "&reload=$INFO[Window(Home).Property(widgetreload-music)]"
+            else:
                 reloadstr = "&reload=$INFO[Window(Home).Property(widgetreload)]"\
                     "$INFO[Window(Home).Property(widgetreload2)]"
-            else:
-                reloadstr = "&reload=$INFO[Window(Home).Property(widgetreload)]"
             content = content + reloadstr
         content = content.replace("&limit=100", "&limit=25")
         widgets.append([label, content, media_type])
@@ -457,7 +466,9 @@ def favourites_widgets():
                         "search" not in content.lower() and "play" not in content.lower()):
                     label = fav["title"]
                     log_msg("skinshortcuts widgets processing favourite: %s" % label)
-                    mediatype = detect_plugin_content(content)
+                    mutils = MetadataUtils()
+                    mediatype = mutils.detect_plugin_content(content)
+                    del mutils
                     if mediatype and mediatype != "empty":
                         widgets.append([label, content, mediatype])
     return widgets
