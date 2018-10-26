@@ -427,8 +427,12 @@ class ListItemMonitor(threading.Thread):
         addontypes.append(("video", "SkinHelper.TotalVideoAddons"))
         addontypes.append(("audio", "SkinHelper.TotalAudioAddons"))
         addontypes.append(("image", "SkinHelper.TotalPicturesAddons"))
+        addontypes.append(("game", "SkinHelper.TotalGamesAddons"))
         for addontype in addontypes:
-            media_array = kodi_json('Addons.GetAddons', {"content": addontype[0]})
+            if addontype[0] == "game":
+                media_array = kodi_json('Addons.GetAddons', {"type": "kodi.gameclient"})
+            else:
+                media_array = kodi_json('Addons.GetAddons', {"content": addontype[0]})
             self.win.setProperty(addontype[1], str(len(media_array)))
 
         # GET FAVOURITES COUNT
