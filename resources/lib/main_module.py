@@ -305,7 +305,7 @@ class MainModule:
         count = 0
         if control:
             while not getCondVisibility("Control.HasFocus(%s)" % control):
-                if getCondVisibility("Window.IsActive(busydialog)"):
+                if getCondVisibility("Window.IsActive(busydialognocancel)"):
                     xbmc.sleep(150)
                     continue
                 elif count == 20 or (getCondVisibility(
