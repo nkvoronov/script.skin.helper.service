@@ -44,7 +44,7 @@ class MainModule:
         except Exception as exc:
             log_exception(__name__, exc)
         finally:
-            xbmc.executebuiltin("dialog.Close(busydialog)")
+            xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
 
         # do cleanup
         self.close()
@@ -96,7 +96,7 @@ class MainModule:
 
     def setview(self):
         '''sets the selected viewmode for the container'''
-        xbmc.executebuiltin("ActivateWindow(busydialog)")
+        xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
         content_type = get_current_content_type()
         if not content_type:
             content_type = "files"
@@ -234,7 +234,7 @@ class MainModule:
 
     def searchyoutube(self):
         '''helper to search youtube for the given title'''
-        xbmc.executebuiltin("ActivateWindow(busydialog)")
+        xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
         title = self.params.get("title", "")
         window_header = self.params.get("header", "")
         results = []
@@ -251,7 +251,7 @@ class MainModule:
                 results.append(listitem)
 
         # finished lookup - display listing with results
-        xbmc.executebuiltin("dialog.Close(busydialog)")
+        xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
         dialog = DialogSelect("DialogSelect.xml", "", listing=results, windowtitle=window_header,
                               multiselect=False, richlayout=True)
         dialog.doModal()
@@ -269,7 +269,7 @@ class MainModule:
 
     def getcastmedia(self):
         '''helper to show a dialog with all media for a specific actor'''
-        xbmc.executebuiltin("ActivateWindow(busydialog)")
+        xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
         name = self.params.get("name", "")
         window_header = self.params.get("name", "")
         results = []
@@ -282,7 +282,7 @@ class MainModule:
                 item["file"] = 'PlayMedia("%s")' % item["file"]
             results.append(self.mutils.kodidb.create_listitem(item, False))
         # finished lookup - display listing with results
-        xbmc.executebuiltin("dialog.Close(busydialog)")
+        xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
         dialog = DialogSelect("DialogSelect.xml", "", listing=results, windowtitle=window_header, richlayout=True)
         dialog.doModal()
         result = dialog.result
@@ -497,7 +497,7 @@ class MainModule:
 
     def videosearch(self):
         '''show the special search dialog'''
-        xbmc.executebuiltin("ActivateWindow(busydialog)")
+        xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
         from resources.lib.searchdialog import SearchDialog
         search_dialog = SearchDialog("script-skin_helper_service-CustomSearch.xml",
                                      self.addon.getAddonInfo('path').decode("utf-8"), "Default", "1080i")

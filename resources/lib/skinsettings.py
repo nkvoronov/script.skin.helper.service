@@ -419,7 +419,7 @@ class SkinSettings:
     def select_image(self, skinstring, allow_multi=True, windowheader="",
                      resource_addon="", skinhelper_backgrounds=False, current_value=""):
         '''helper which lets the user select an image or imagepath from resourceaddons or custom path'''
-        xbmc.executebuiltin("ActivateWindow(busydialog)")
+        xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
         images = []
         if not windowheader:
             windowheader = self.addon.getLocalizedString(32020)
@@ -462,7 +462,7 @@ class SkinSettings:
         # show select dialog with choices
         dialog = DialogSelect("DialogSelect.xml", "", listing=listitems, windowtitle=windowheader, richlayout=True,
                               getmorebutton=resource_addon, autofocuslabel=current_value)
-        xbmc.executebuiltin("Dialog.Close(busydialog)")
+        xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
         dialog.doModal()
         result = dialog.result
         del dialog

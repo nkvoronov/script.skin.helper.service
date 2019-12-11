@@ -238,7 +238,7 @@ class SearchDialog(xbmcgui.WindowXMLDialog):
             self.close_dialog()
         elif "actor" in listitem.getProperty("DBTYPE"):
             # cast dialog
-            xbmc.executebuiltin("ActivateWindow(busydialog)")
+            xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
             from dialogselect import DialogSelect
             results = []
             name = listitem.getLabel().decode("utf-8")
@@ -251,7 +251,7 @@ class SearchDialog(xbmcgui.WindowXMLDialog):
                     item["file"] = 'PlayMedia("%s")' % item["file"]
                 results.append(self.mutils.kodidb.create_listitem(item, False))
             # finished lookup - display listing with results
-            xbmc.executebuiltin("dialog.Close(busydialog)")
+            xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
             dialog = DialogSelect("DialogSelect.xml", "", listing=results, windowtitle=name, richlayout=True)
             dialog.doModal()
             result = dialog.result

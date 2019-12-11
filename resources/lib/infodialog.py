@@ -78,8 +78,8 @@ class DialogVideoInfo(xbmcgui.WindowXMLDialog):
 
 def get_cur_listitem(cont_prefix):
     '''gets the current selected listitem details'''
-    if getCondVisibility("Window.IsActive(busydialog)"):
-        xbmc.executebuiltin("Dialog.Close(busydialog)")
+    if getCondVisibility("Window.IsActive(busydialognocancel)"):
+        xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
         xbmc.sleep(500)
     dbid = xbmc.getInfoLabel("%sListItem.DBID" % cont_prefix).decode('utf-8')
     if not dbid or dbid == "-1":

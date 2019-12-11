@@ -21,7 +21,7 @@ from simplecache import SimpleCache
 
 def setresourceaddon(addontype, skinstring="", header=""):
     '''helper to let the user choose a resource addon and set that as skin string'''
-    xbmc.executebuiltin("ActivateWindow(busydialog)")
+    xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
     cur_value = xbmc.getInfoLabel("Skin.String(%s.name)" % skinstring).decode("utf-8")
     listing = []
     addon = xbmcaddon.Addon(ADDON_ID)
@@ -103,7 +103,7 @@ def setresourceaddon(addontype, skinstring="", header=""):
 
 def downloadresourceaddons(addontype):
     '''show dialog with all available resource addons on the repo so the user can install one'''
-    xbmc.executebuiltin("ActivateWindow(busydialog)")
+    xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
     listitems = []
     addon = xbmcaddon.Addon(ADDON_ID)
     for item in get_repo_resourceaddons(addontype):

@@ -35,7 +35,7 @@ def get_imdb_id(win, metadatautils):
 
 # Kodi contextmenu item to configure the artwork
 if __name__ == '__main__':
-    xbmc.executebuiltin("ActivateWindow(busydialog)")
+    xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
     log_msg("Contextmenu for Animated Art opened", xbmc.LOGNOTICE)
     ARTUTILS = MetadataUtils()
     WIN = xbmcgui.Window(10000)
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     log_msg("Animated Art: Query animated art by IMDBID: %s" % imdb_id, xbmc.LOGNOTICE)
     artwork = ARTUTILS.get_animated_artwork(imdb_id, manual_select=True, ignore_cache=True)
     log_msg("Animated Art result: %s" % artwork, xbmc.LOGNOTICE)
-    xbmc.executebuiltin("Dialog.Close(busydialog)")
+    xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
     xbmc.executebuiltin("Container.Refresh")
     WIN.clearProperty("SkinHelper.Artwork.ManualLookup")
     del WIN
