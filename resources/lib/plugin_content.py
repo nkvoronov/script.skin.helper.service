@@ -359,3 +359,48 @@ class PluginContent:
                 xbmc.sleep(50)
                 if xbmc.getInfoLabel("ListItem.Sortletter").upper() == letter:
                     break
+
+    @staticmethod
+    def alphabet2():
+        '''display an alphabet scrollbar in listings'''
+        all_letters = []
+        if xbmc.getInfoLabel("Container.NumItems"):
+            for i in range(int(xbmc.getInfoLabel("Container.NumItems"))):
+                letter = unicode(xbmc.getInfoLabel("ListItem(%s).Label" % i).upper(), "utf-8")[:1]
+                if (letter not in all_letters) and (letter != "."):
+                    all_letters.append(letter)
+            all_letters.sort()
+            for letter in all_letters:
+                label = letter
+                listitem = xbmcgui.ListItem(label=label)
+                lipath = "plugin://script.skin.helper.service/?action=alphabetletter2&letter=%s" % letter
+                xbmcplugin.addDirectoryItem(int(sys.argv[1]), lipath, listitem, isFolder=False)
+        xbmcplugin.endOfDirectory(handle=int(sys.argv[1]))
+
+    def alphabetletter2(self):
+        '''used with the alphabet scrollbar to jump to a letter'''
+        if KODI_VERSION > 16:
+            xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=False, listitem=xbmcgui.ListItem())
+        letter = self.params.get("letter", "").upper()
+
+        windowID = xbmcgui.getCurrentWindowId()
+        window = xbmcgui.Window(windowID)
+        control = None
+        controlID = 0
+        views = [50,51,52,53,54,55,56,57,58,500,501,502]
+        for id in views:
+            try:
+                control = window.getControl(id)
+                if control.isVisible():
+                    controlID = id
+                    break
+            except:
+                pass
+
+        for i in range(int(xbmc.getInfoLabel("Container.NumItems"))):
+            xbmc.executebuiltin("SetFocus(%s,%s,absolute)" % (controlID,i))
+            xbmc.sleep(50)
+            letter2 = unicode(xbmc.getInfoLabel("ListItem.Label").upper(), "utf-8")[:1]
+            if letter2 == letter:
+                break
+
