@@ -244,7 +244,7 @@ class KodiMonitor(xbmc.Monitor):
                 li_plot = li_plot.replace('\n', ' ').replace('\r', '').rstrip()
                 result["extendedplot"] = "%s -- %s" % (result["extendedplot"], li_plot)
             all_props = prepare_win_props(result, "SkinHelper.Player.")
-            if li_title_org == xbmc.getInfoLabel("MusicPlayer.Title")
+            if li_title_org == xbmc.getInfoLabel("MusicPlayer.Title"):
                 self.metadatautils.process_method_on_list(self.set_win_prop, all_props)
 
     def artwork_downloader(self, media_type, dbid):
