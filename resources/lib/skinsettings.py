@@ -13,7 +13,7 @@ import xbmc
 import xbmcvfs
 import xbmcgui
 import xbmcaddon
-from resources.lib.utils import ADDON_ID, try_decode, getCondVisibility
+from resources.lib.utils import ADDON_ID, getCondVisibility
 from resources.lib.dialogselect import DialogSelect
 from xml.dom.minidom import parse
 import xml.etree.ElementTree as xmltree
@@ -48,8 +48,7 @@ class SkinSettings:
                     includes_file = xbmc.translatePath(
                         os.path.join(
                             "special://skin/",
-                            try_decode(
-                                resolution.attrib.get("folder")),
+                            resolution.attrib.get("folder"),
                             "script-skin_helper_service-includes.xml"))
                     tree = xmltree.ElementTree(xmltree.Element("includes"))
                     root = tree.getroot()
@@ -62,7 +61,7 @@ class SkinSettings:
                                 # also write to skin strings
                                 xbmc.executebuiltin(
                                     "Skin.SetString(%s,%s)" %
-                                    (key.encode("utf-8"), value.encode("utf-8")))
+                                    (key, value))
                     if variables:
                         for key, value in variables.iteritems():
                             if value:
@@ -92,23 +91,22 @@ class SkinSettings:
                     includes_file = xbmc.translatePath(
                         os.path.join(
                             "special://skin/",
-                            try_decode(
-                                resolution.attrib.get("folder")),
-                            "script-skin_helper_service-includes.xml").encode("utf-8")).decode('utf-8')
+                            resolution.attrib.get("folder"),
+                            "script-skin_helper_service-includes.xml"))
                     if xbmcvfs.exists(includes_file):
                         doc = parse(includes_file)
                         listing = doc.documentElement.getElementsByTagName('constant')
                         # constants
                         for item in listing:
-                            name = try_decode(item.attributes['name'].nodeValue)
-                            value = try_decode(item.firstChild.nodeValue)
+                            name = item.attributes['name'].nodeValue
+                            value = item.firstChild.nodeValue
                             all_constants[name] = value
                         # variables
                         listing = doc.documentElement.getElementsByTagName('variable')
                         for item in listing:
-                            name = try_decode(item.attributes['name'].nodeValue)
+                            name = item.attributes['name'].nodeValue
                             value_item = item.getElementsByTagName('value')[0]
-                            value = try_decode(value_item.firstChild.nodeValue)
+                            value = value_item.firstChild.nodeValue
                             all_variables[name] = value
         return all_constants, all_variables
 
@@ -188,8 +186,6 @@ class SkinSettings:
                     command = action.firstChild.nodeValue
                     if "$" in command:
                         command = xbmc.getInfoLabel(command)
-                    else:
-                        command = command
                     selectaction["command"] = command
                     onselectactions.append(selectaction)
                 skinsettingvalue["onselectactions"] = onselectactions
@@ -204,8 +200,6 @@ class SkinSettings:
                             value = option.attributes[key].nodeValue
                             if value.startswith("$"):
                                 value = xbmc.getInfoLabel(value)
-                            else:
-                                value = value
                         except Exception:
                             pass
                         settingoption[key] = value
@@ -293,9 +287,9 @@ class SkinSettings:
                 # write skin strings
                 if not skip_skin_string and value != "||SKIPSTRING||":
                     xbmc.executebuiltin("Skin.SetString(%s,%s)" %
-                                        (setting.encode("utf-8"), value.encode("utf-8")))
+                                        (setting, value))
                     xbmc.executebuiltin("Skin.SetString(%s.label,%s)" %
-                                        (setting.encode("utf-8"), label.encode("utf-8")))
+                                        (setting, label))
                 # process additional actions
                 onselectactions = selected_item.getProperty("onselectactions")
                 if onselectactions:
@@ -326,24 +320,24 @@ class SkinSettings:
                 if value and value == curvalue:
                     xbmc.executebuiltin(
                         "Skin.SetString(%s.label,%s)" %
-                        (settingid.encode("utf-8"), label.encode("utf-8")))
+                        (settingid, label))
 
                 # set the default value if current value is empty
                 if not (curvalue or curlabel):
                     if settingvalue["default"] and getCondVisibility(settingvalue["default"]):
                         xbmc.executebuiltin(
                             "Skin.SetString(%s.label,%s)" %
-                            (settingid.encode("utf-8"), label.encode("utf-8")))
+                            (settingid, label))
                         xbmc.executebuiltin(
                             "Skin.SetString(%s,%s)" %
-                            (settingid.encode("utf-8"), value.encode("utf-8")))
+                            (settingid, value))
                         # additional onselect actions
                         for action in settingvalue["onselectactions"]:
                             if action["condition"] and getCondVisibility(action["condition"]):
                                 command = action["command"]
                                 if "$" in command:
                                     command = xbmc.getInfoLabel(command)
-                                xbmc.executebuiltin(command.encode("utf-8"))
+                                xbmc.executebuiltin(command)
 
                 # process any multiselects
                 for option in settingvalue["settingoptions"]:

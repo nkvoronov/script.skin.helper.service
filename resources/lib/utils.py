@@ -46,7 +46,7 @@ def kodi_json(jsonmethod, params=None, returntype=None):
         params = {}
     kodi_json["params"] = params
     kodi_json["id"] = 1
-    json_response = xbmc.executeJSONRPC(try_encode(json.dumps(kodi_json)))
+    json_response = xbmc.executeJSONRPC(json.dumps(kodi_json))
     json_object = json.loads(json_response)
     # set the default returntype to prevent errors
     if "details" in jsonmethod.lower():
@@ -72,25 +72,9 @@ def kodi_json(jsonmethod, params=None, returntype=None):
     return result
 
 
-def try_encode(text, encoding="utf-8"):
-    '''helper to encode a string to utf-8'''
-    try:
-        return text
-    except Exception:
-        return text
-
-
-def try_decode(text, encoding="utf-8"):
-    '''helper to decode a string into unicode'''
-    try:
-        return text
-    except Exception:
-        return text
-
-
 def urlencode(text):
     '''urlencode a string'''
-    blah = urllib.parse.urlencode({'blahblahblah': try_encode(text)})
+    blah = urllib.parse.urlencode({'blahblahblah': text})
     blah = blah[13:]
     return blah
 
@@ -192,7 +176,6 @@ def get_current_content_type(containerprefix=""):
 def recursive_delete_dir(path):
     '''helper to recursively delete a directory'''
     success = True
-    path = try_encode(path)
     dirs, files = xbmcvfs.listdir(path)
     for file in files:
         success = xbmcvfs.delete(os.path.join(path, file))

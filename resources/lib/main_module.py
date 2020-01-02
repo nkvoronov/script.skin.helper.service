@@ -130,7 +130,7 @@ class MainModule:
             listitem.setProperty("id", "None")
             all_views.append(listitem)
         # read the special skin views file
-        views_file = xbmc.translatePath('special://skin/extras/views.xml').decode("utf-8")
+        views_file = xbmc.translatePath('special://skin/extras/views.xml')
         if xbmcvfs.exists(views_file):
             doc = parse(views_file)
             listing = doc.documentElement.getElementsByTagName('view')
@@ -160,7 +160,7 @@ class MainModule:
         del dialog
         if result:
             viewid = result.getProperty("viewid")
-            label = result.getLabel().decode("utf-8")
+            label = result.getLabel()
             return (viewid, label)
         else:
             return (None, None)
@@ -169,7 +169,7 @@ class MainModule:
     def enableviews(self):
         '''show select dialog to enable/disable views'''
         all_views = []
-        views_file = xbmc.translatePath('special://skin/extras/views.xml').decode("utf-8")
+        views_file = xbmc.translatePath('special://skin/extras/views.xml')
         richlayout = self.params.get("richlayout", "") == "true"
         if xbmcvfs.exists(views_file):
             doc = parse(views_file)
@@ -339,7 +339,7 @@ class MainModule:
         header = self.params.get("header", "")
         value = SkinSettings().save_skin_image(skinstring, allow_multi, header)
         if value:
-            xbmc.executebuiltin("Skin.SetString(%s,%s)" % (skinstring.encode("utf-8"), value.encode("utf-8")))
+            xbmc.executebuiltin("Skin.SetString(%s,%s)" % (skinstring, value))
 
     @staticmethod
     def checkskinsettings():
@@ -351,7 +351,7 @@ class MainModule:
         setting = self.params.get("setting", "")
         org_id = self.params.get("id", "")
         if "$" in org_id:
-            org_id = xbmc.getInfoLabel(org_id).decode("utf-8")
+            org_id = xbmc.getInfoLabel(org_id)
         header = self.params.get("header", "")
         SkinSettings().set_skin_setting(setting=setting, window_header=header, original_id=org_id)
 
@@ -570,8 +570,6 @@ class MainModule:
                     # we got an dynamic image from window property
                     skinsettings.set_skin_variable(skinstring, value)
                     value = "$VAR[%s]" % skinstring
-                skinstring = skinstring.encode("utf-8")
-                label = label.encode("utf-8")
                 xbmc.executebuiltin("Skin.SetString(%s.label,%s)" % (skinstring, label))
                 xbmc.executebuiltin("Skin.SetString(%s.name,%s)" % (skinstring, label))
                 xbmc.executebuiltin("Skin.SetString(%s,%s)" % (skinstring, value))
@@ -594,10 +592,10 @@ class MainModule:
         noactions = self.params.get("noaction", "").split("|")
         if xbmcgui.Dialog().yesno(heading=headertxt, line1=bodytxt):
             for action in yesactions:
-                xbmc.executebuiltin(action.encode("utf-8"))
+                xbmc.executebuiltin(action)
         else:
             for action in noactions:
-                xbmc.executebuiltin(action.encode("utf-8"))
+                xbmc.executebuiltin(action)
 
     def textviewer(self):
         '''helper to show a textviewer dialog with a message'''
