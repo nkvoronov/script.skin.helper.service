@@ -8,13 +8,14 @@
     several helpers to get data/images from kodi image resource addons
 '''
 
+import os, sys
 import xbmc
 import xbmcvfs
 import xbmcgui
 import xbmcaddon
-from utils import KODI_VERSION, ADDON_ID, log_exception, kodi_json, getCondVisibility
-from dialogselect import DialogSelect
-import urllib2
+from resources.lib.utils import KODI_VERSION, ADDON_ID, log_exception, kodi_json, getCondVisibility
+from resources.lib.dialogselect import DialogSelect
+import urllib.request, urllib.error, urllib.parse
 import re
 from simplecache import SimpleCache
 
@@ -22,7 +23,7 @@ from simplecache import SimpleCache
 def setresourceaddon(addontype, skinstring="", header=""):
     '''helper to let the user choose a resource addon and set that as skin string'''
     xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
-    cur_value = xbmc.getInfoLabel("Skin.String(%s.name)" % skinstring).decode("utf-8")
+    cur_value = xbmc.getInfoLabel("Skin.String(%s.name)" % skinstring)
     listing = []
     addon = xbmcaddon.Addon(ADDON_ID)
     if not header:
@@ -70,7 +71,7 @@ def setresourceaddon(addontype, skinstring="", header=""):
         return setresourceaddon(addontype, skinstring)
     elif result:
         addon_id = result.getProperty("addonid")
-        addon_name = result.getLabel().decode("utf-8")
+        addon_name = result.getLabel()
         if addon_id == "none" and skinstring:
             # None
             xbmc.executebuiltin('Skin.Reset(%s)' % skinstring)
@@ -86,7 +87,7 @@ def setresourceaddon(addontype, skinstring="", header=""):
                 custom_path = dialog.browse(0, addon.getLocalizedString(32005), 'files')
                 del dialog
                 result.setPath(custom_path)
-            addonpath = result.getfilename().decode("utf-8")
+            addonpath = result.getfilename()
             if addonpath:
                 is_multi, extension = get_multi_extension(addonpath)
                 xbmc.executebuiltin('Skin.SetString(%s,%s)' % (skinstring, addonpath))
@@ -154,7 +155,7 @@ def checkresourceaddons(addonslist):
         setting = item.split(";")[0]
         addontype = item.split(";")[1]
         addontypelabel = item.split(";")[2]
-        skinsetting = xbmc.getInfoLabel("Skin.String(%s.path)" % setting).decode("utf-8")
+        skinsetting = xbmc.getInfoLabel("Skin.String(%s.path)" % setting)
         if not skinsetting or (skinsetting and
                                getCondVisibility("!System.HasAddon(%s)" %
                                                       skinsetting.replace("resource://", "").replace("/", ""))):
@@ -243,10 +244,10 @@ def get_repo_addoninfo(addonid, simplecache=None):
         info = {"addonid": addonid, "name": "", "thumbnail": "", "author": ""}
         mirrorurl = "http://addons.kodi.tv/show/%s/" % addonid
         try:
-            req = urllib2.Request(mirrorurl)
+            req = urllib.request.Request(mirrorurl)
             req.add_header('User-Agent',
                            'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             body = response.read()
             response.close()
             body = body.replace('\r', '').replace('\n', '').replace('\t', '')
@@ -290,7 +291,7 @@ def walk_directory(browsedir, recursive=False, label2=""):
         dirs = xbmcvfs.listdir(browsedir)[0]
         subdirs = [browsedir]
         for directory in dirs:
-            directory = directory.decode("utf-8")
+            directory = directory
             cur_dir = "%s%s/" % (browsedir, directory)
             if recursive:
                 subdirs.append(cur_dir)
@@ -299,7 +300,7 @@ def walk_directory(browsedir, recursive=False, label2=""):
                 images.append((label, cur_dir, label2, "DefaultFolder.png"))
         for subdir in subdirs:
             for imagefile in xbmcvfs.listdir(subdir)[1]:
-                imagefile = imagefile.decode("utf-8")
+                imagefile = imagefile
                 label = imagefile
                 imagepath = subdir + imagefile
                 images.append((label, imagepath, label2, imagepath))

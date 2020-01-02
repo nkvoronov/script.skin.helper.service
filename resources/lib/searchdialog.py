@@ -7,12 +7,13 @@
     Special window to search the Kodi video database
 '''
 
+import os, sys
 import threading
-import thread
+import _thread as thread
+from resources.lib.utils import getCondVisibility
 import xbmc
 import xbmcgui
 from metadatautils import MetaDataUtils
-from utils import getCondVisibility
 
 class SearchDialog(xbmcgui.WindowXMLDialog):
     ''' Special window to search the Kodi video database'''
@@ -220,7 +221,7 @@ class SearchDialog(xbmcgui.WindowXMLDialog):
         if "actor" in listitem.getProperty("DBTYPE"):
             xbmc.executebuiltin("RunScript(script.extendedinfo,info=extendedactorinfo,name=%s)" % listitem.getLabel())
         else:
-            from infodialog import DialogVideoInfo
+            from .infodialog import DialogVideoInfo
             win = DialogVideoInfo("DialogVideoInfo.xml", "", listitem=listitem)
             win.doModal()
             result = win.result
@@ -239,9 +240,9 @@ class SearchDialog(xbmcgui.WindowXMLDialog):
         elif "actor" in listitem.getProperty("DBTYPE"):
             # cast dialog
             xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
-            from dialogselect import DialogSelect
+            from .dialogselect import DialogSelect
             results = []
-            name = listitem.getLabel().decode("utf-8")
+            name = listitem.getLabel()
             items = self.mutils.kodidb.castmedia(name)
             items = self.mutils.process_method_on_list(self.mutils.kodidb.prepare_listitem, items)
             for item in items:
