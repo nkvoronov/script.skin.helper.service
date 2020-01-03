@@ -64,7 +64,7 @@ class SkinSettings:
                                     "Skin.SetString(%s,%s)" %
                                     (key, value))
                     if variables:
-                        for key, value in variables.iteritems():
+                        for key, value in variables.items():
                             if value:
                                 child = xmltree.SubElement(root, "variable")
                                 child.attrib["name"] = key
