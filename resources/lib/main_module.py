@@ -15,13 +15,13 @@ import xbmcgui
 import xbmcaddon
 from .skinsettings import SkinSettings
 import urllib.parse
-from simplecache import SimpleCache
+from .dialogselect import DialogSelect
+
 from resources.lib.utils import log_msg, KODI_VERSION, kodi_json, clean_string, getCondVisibility
 from resources.lib.utils import log_exception, get_current_content_type, ADDON_ID, recursive_delete_dir
-from .dialogselect import DialogSelect
+from simplecache import SimpleCache
 from xml.dom.minidom import parse
 from metadatautils import MetadataUtils
-
 
 class MainModule:
     '''mainmodule provides the script methods for the skinhelper addon'''
@@ -429,7 +429,7 @@ class MainModule:
             # always wait a bit to prevent trailer start playing when we're scrolling the list
             xbmc.Monitor().waitForAbort(3)
             if li_trailer and (li_title == xbmc.getInfoLabel("%sListItem.Title"
-                                                             % widget_container_prefix)
+                                                             % widget_container_prefix)):
                 if trailer_mode == "fullscreen" and li_trailer:
                     xbmc.executebuiltin('PlayMedia("%s")' % li_trailer)
                 else:

@@ -13,9 +13,9 @@ import xbmc
 import xbmcvfs
 import xbmcgui
 import xbmcaddon
+import urllib.request, urllib.error, urllib.parse
 from resources.lib.utils import KODI_VERSION, ADDON_ID, log_exception, kodi_json, getCondVisibility
 from resources.lib.dialogselect import DialogSelect
-import urllib.request, urllib.error, urllib.parse
 import re
 from simplecache import SimpleCache
 
@@ -291,7 +291,6 @@ def walk_directory(browsedir, recursive=False, label2=""):
         dirs = xbmcvfs.listdir(browsedir)[0]
         subdirs = [browsedir]
         for directory in dirs:
-            directory = directory
             cur_dir = "%s%s/" % (browsedir, directory)
             if recursive:
                 subdirs.append(cur_dir)
@@ -300,7 +299,6 @@ def walk_directory(browsedir, recursive=False, label2=""):
                 images.append((label, cur_dir, label2, "DefaultFolder.png"))
         for subdir in subdirs:
             for imagefile in xbmcvfs.listdir(subdir)[1]:
-                imagefile = imagefile
                 label = imagefile
                 imagepath = subdir + imagefile
                 images.append((label, imagepath, label2, imagepath))

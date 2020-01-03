@@ -19,6 +19,7 @@ from xml.dom.minidom import parse
 import xml.etree.ElementTree as xmltree
 import time
 
+
 class SkinSettings:
     '''several helpers that allows skinners to have custom dialogs for their skin settings and constants'''
     params = {}
@@ -114,7 +115,7 @@ class SkinSettings:
         '''update skin constants if needed'''
         update_needed = False
         if new_constants:
-            for key, value in new_constants.iteritems():
+            for key, value in list(new_constants.items()):
                 if key in self.skin_constants:
                     if self.skin_constants.get(key) != value:
                         update_needed = True
@@ -303,7 +304,7 @@ class SkinSettings:
     def correct_skin_settings(self):
         '''correct any special skin settings'''
         skinconstants = {}
-        for settingid, settingvalues in self.skinsettings.iteritems():
+        for settingid, settingvalues in list(self.skinsettings.items()):
             curvalue = xbmc.getInfoLabel("Skin.String(%s)" % settingid)
             curlabel = xbmc.getInfoLabel("Skin.String(%s.label)" % settingid)
             # first check if we have a sublevel
