@@ -141,7 +141,8 @@ class PluginContent:
         from .resourceaddons import get_resourceimages
         addontype = self.params.get("addontype", "")
         for item in get_resourceimages(addontype, True):
-            listitem = xbmcgui.ListItem(item[0], label2=item[2], path=item[1], iconImage=item[3])
+            listitem = xbmcgui.ListItem(item[0], label2=item[2], path=item[1])
+            listitem.setArt({"icon":item[3]})
             xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),
                                         url=item[1], listitem=listitem, isFolder=False)
         xbmcplugin.endOfDirectory(handle=int(sys.argv[1]))
@@ -287,8 +288,8 @@ class PluginContent:
         # process listing with the results...
         for cast in all_cast:
             if cast.get("name") not in all_cast_names:
-                liz = xbmcgui.ListItem(label=cast.get("name"), label2=cast.get("role"),
-                                       iconImage=cast.get("thumbnail"))
+                liz = xbmcgui.ListItem(label=cast.get("name"), label2=cast.get("role"))
+                liz.setArt({"icon":cast.get("thumbnail")})
                 if extended_cast_action:
                     url = "RunScript(script.extendedinfo,info=extendedactorinfo,name=%s)" % cast.get("name")
                     url = "plugin://script.skin.helper.service/?action=launch&path=%s" % url
@@ -366,7 +367,7 @@ class PluginContent:
         all_letters = []
         if xbmc.getInfoLabel("Container.NumItems"):
             for i in range(int(xbmc.getInfoLabel("Container.NumItems"))):
-                letter = unicode(xbmc.getInfoLabel("ListItem(%s).Label" % i).upper(), "utf-8")[:1]
+                letter = xbmc.getInfoLabel("ListItem(%s).Label" % i).upper()[:1]
                 if (letter not in all_letters) and (letter != "."):
                     all_letters.append(letter)
             all_letters.sort()
@@ -400,7 +401,7 @@ class PluginContent:
         for i in range(int(xbmc.getInfoLabel("Container.NumItems"))):
             xbmc.executebuiltin("SetFocus(%s,%s,absolute)" % (controlID,i))
             xbmc.sleep(50)
-            letter2 = unicode(xbmc.getInfoLabel("ListItem.Label").upper(), "utf-8")[:1]
+            letter2 = xbmc.getInfoLabel("ListItem.Label").upper()[:1]
             if letter2 == letter:
                 break
 

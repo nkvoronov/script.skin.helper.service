@@ -39,7 +39,7 @@ class MainService:
         # start the extra threads
         self.listitem_monitor.start()
         self.webservice.start()
-        
+
         log_msg('%s version %s started' % (self.addonname, self.addonversion), xbmc.LOGNOTICE)
 
         # run as service, check skin every 10 seconds and keep the other threads alive

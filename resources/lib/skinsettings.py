@@ -221,9 +221,10 @@ class SkinSettings:
         rich_layout = False
         listitems = []
         if sublevel:
-            listitem = xbmcgui.ListItem(label="..", iconImage="DefaultFolderBack.png")
+            listitem = xbmcgui.ListItem(label="..")
             listitem.setProperty("icon", "DefaultFolderBack.png")
             listitem.setProperty("value", "||BACK||")
+            listitem.setArt({"icon":"DefaultFolderBack.png"})
             listitems.append(listitem)
             all_values = self.skinsettings.get(sublevel, [])
         elif original_id:
@@ -241,11 +242,12 @@ class SkinSettings:
                     label = label % value
                 if value == "||MULTISELECT||" or item["settingoptions"]:
                     return self.multi_select(item["settingoptions"], window_header)
-                listitem = xbmcgui.ListItem(label, iconImage=icon, label2=item["description"])
+                listitem = xbmcgui.ListItem(label, label2=item["description"])
                 listitem.setProperty("value", value)
                 listitem.setProperty("icon", icon)
                 listitem.setProperty("description", item["description"])
                 listitem.setProperty("onselectactions", repr(item["onselectactions"]))
+                listitem.setArt({"icon":icon})
                 listitems.append(listitem)
 
         # show select dialog
@@ -450,9 +452,10 @@ class SkinSettings:
         # create listitems
         listitems = []
         for label, imagepath, label2, icon in images:
-            listitem = xbmcgui.ListItem(label=label, label2=label2, iconImage=icon)
+            listitem = xbmcgui.ListItem(label=label, label2=label2)
             listitem.setPath(imagepath)
             listitems.append(listitem)
+            listitem.setArt({"icon":icon})
 
         # show select dialog with choices
         dialog = DialogSelect("DialogSelect.xml", "", listing=listitems, windowtitle=windowheader, richlayout=True,

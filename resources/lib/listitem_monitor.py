@@ -147,7 +147,7 @@ class ListItemMonitor(threading.Thread):
             cur_listitem = xbmc.getInfoLabel(
                 "$INFO[%sListItem.Label]$INFO[%sListItem.DBID]$INFO[%sListItem.Title]" %
                 (cont_prefix, cont_prefix, cont_prefix))
-                
+
         if self.exit:
             return
 
@@ -297,7 +297,7 @@ class ListItemMonitor(threading.Thread):
 
                 # collect details from listitem
                 details = self.get_listitem_details(content_type, prefix)
-                
+
                 if self.exit:
                     return
 
@@ -318,7 +318,7 @@ class ListItemMonitor(threading.Thread):
                     details["imdbnumber"], tvdbid = self.metadatautils.get_imdbtvdb_id(
                         details["title"], content_type,
                         details["year"], details["imdbnumber"], details["tvshowtitle"])
-                        
+
                     if self.exit:
                         return
 
@@ -439,7 +439,7 @@ class ListItemMonitor(threading.Thread):
         favs = kodi_json('Favourites.GetFavourites')
         if favs:
             self.win.setProperty("SkinHelper.TotalFavourites", "%s" % len(favs))
-            
+
         if self.exit:
             return
 
@@ -447,7 +447,7 @@ class ListItemMonitor(threading.Thread):
         if getCondVisibility("Pvr.HasTVChannels"):
             tv_channels = kodi_json('PVR.GetChannels', {"channelgroupid": "alltv"})
             self.win.setProperty("SkinHelper.TotalTVChannels", "%s" % len(tv_channels))
-            
+
         if self.exit:
             return
 
@@ -459,7 +459,7 @@ class ListItemMonitor(threading.Thread):
                 movieset_movies_count += 1
         self.win.setProperty("SkinHelper.TotalMovieSets", "%s" % len(moviesets))
         self.win.setProperty("SkinHelper.TotalMoviesInSets", "%s" % movieset_movies_count)
-        
+
         if self.exit:
             return
 

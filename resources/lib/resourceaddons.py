@@ -30,31 +30,33 @@ def setresourceaddon(addontype, skinstring="", header=""):
         header = addon.getLocalizedString(32010)
 
     # none option
-    listitem = xbmcgui.ListItem(label=addon.getLocalizedString(32001), iconImage="DefaultAddonNone.png")
+    listitem = xbmcgui.ListItem(label=addon.getLocalizedString(32001))
     listitem.setProperty("addonid", "none")
+    listitem.setArt({ 'icon':'DefaultAddonNone.png' })
     listing.append(listitem)
 
     # custom path
-    listitem = xbmcgui.ListItem(label=addon.getLocalizedString(32009), iconImage="DefaultFolder.png")
+    listitem = xbmcgui.ListItem(label=addon.getLocalizedString(32009))
     listitem.setProperty("addonid", "custom")
+    listitem.setArt({"icon":"DefaultFolder.png" })
     listing.append(listitem)
 
     # available resource addons
     for item in get_resourceaddons(addontype):
         label2 = "%s: %s" % (xbmc.getLocalizedString(21863), item["author"])
-        listitem = xbmcgui.ListItem(label=item["name"], label2=label2, iconImage=item["thumbnail"])
+        listitem = xbmcgui.ListItem(label=item["name"], label2=label2)
         listitem.setPath(item["path"])
         listitem.setProperty("addonid", item["addonid"])
+        listitem.setArt({"icon":item["thumbnail"]})
         listing.append(listitem)
 
     # special skinhelper paths
     if addontype == "resource.images.moviegenrefanart":
         label = addon.getLocalizedString(32019)
-        listitem = xbmcgui.ListItem(
-            label=label, label2="Skin Helper Service",
-            iconImage="special://home/addons/script.skin.helper.service/icon.png")
+        listitem = xbmcgui.ListItem(label=label, label2="Skin Helper Service")
         listitem.setPath("plugin://script.skin.helper.service/?action=moviegenrebackground&genre=")
         listitem.setProperty("addonid", "skinhelper.forgenre")
+        listitem.setArt({"icon":"special://home/addons/script.skin.helper.service/resources/icon.png"})
         listing.append(listitem)
 
     # show select dialog with choices
@@ -110,10 +112,10 @@ def downloadresourceaddons(addontype):
     for item in get_repo_resourceaddons(addontype):
         if not getCondVisibility("System.HasAddon(%s)" % item["addonid"]):
             label2 = "%s: %s" % (xbmc.getLocalizedString(21863), item["author"])
-            listitem = xbmcgui.ListItem(label=item["name"],
-                                        label2=label2, iconImage=item["thumbnail"])
+            listitem = xbmcgui.ListItem(label=item["name"], label2=label2)
             listitem.setPath(item["path"])
             listitem.setProperty("addonid", item["addonid"])
+            listitem.setArt({"icon":item["thumbnail"]})
             listitems.append(listitem)
     # if no addons available show OK dialog..
     if not listitems:

@@ -11,7 +11,7 @@
 import os, sys
 import xbmc
 import xbmcvfs
-import urllib.request, urllib.parse, urllib.error
+import urllib.parse as urllib
 import traceback
 
 try:
@@ -74,7 +74,7 @@ def kodi_json(jsonmethod, params=None, returntype=None):
 
 def urlencode(text):
     '''urlencode a string'''
-    blah = urllib.parse.urlencode({'blahblahblah': text})
+    blah = urllib.urlencode({'blahblahblah': text})
     blah = blah[13:]
     return blah
 
@@ -233,8 +233,8 @@ def clean_string(text):
     text = text.strip("'\"")
     text = text.strip()
     return text
-    
-    
+
+
 def getCondVisibility(text):
     '''executes the builtin getCondVisibility'''
     # temporary solution: check if strings needs to be adjusted for backwards compatability

@@ -147,9 +147,10 @@ class MainModule:
                     (not "!" + content_type.lower() in mediatypes) and not
                         getCondVisibility("Skin.HasSetting(SkinHelper.view.Disabled.%s)" % viewid)):
                     image = "special://skin/extras/viewthumbs/%s.jpg" % viewid
-                    listitem = xbmcgui.ListItem(label=label, iconImage=image)
+                    listitem = xbmcgui.ListItem(label=label)
                     listitem.setProperty("viewid", viewid)
                     listitem.setProperty("icon", image)
+                    listitem.setArt({"icon":image})
                     all_views.append(listitem)
                     itemcount += 1
         dialog = DialogSelect("DialogSelect.xml", "", listing=all_views,
@@ -179,8 +180,9 @@ class MainModule:
                 label = xbmc.getLocalizedString(int(view.attributes['languageid'].nodeValue))
                 desc = label + " (" + str(view_id) + ")"
                 image = "special://skin/extras/viewthumbs/%s.jpg" % view_id
-                listitem = xbmcgui.ListItem(label=label, label2=desc, iconImage=image)
+                listitem = xbmcgui.ListItem(label=label, label2=desc)
                 listitem.setProperty("viewid", view_id)
+                listitem.setArt({"icon":image})
                 if not getCondVisibility("Skin.HasSetting(SkinHelper.view.Disabled.%s)" % view_id):
                     listitem.select(selected=True)
                 excludefromdisable = False
@@ -246,8 +248,9 @@ class MainModule:
                 if media.get('art'):
                     if media['art'].get('thumb'):
                         image = (media['art']['thumb'])
-                listitem = xbmcgui.ListItem(label=label, label2=label2, iconImage=image)
+                listitem = xbmcgui.ListItem(label=label, label2=label2)
                 listitem.setProperty("path", media["file"])
+                listitem.setArt({"icon":image})
                 results.append(listitem)
 
         # finished lookup - display listing with results
@@ -602,7 +605,7 @@ class MainModule:
         headertxt = clean_string(self.params.get("header", ""))
         bodytxt = clean_string(self.params.get("message", ""))
         xbmcgui.Dialog().textviewer(headertxt, bodytxt)
-        
+
 
     def fileexists(self):
         '''helper to let the skinner check if a file exists
