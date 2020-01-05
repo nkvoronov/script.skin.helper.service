@@ -30,7 +30,7 @@ class PluginContent:
         self.mutils = MetadataUtils()
         self.win = xbmcgui.Window(10000)
         try:
-            self.params = dict(urlparse.parse_qsl(sys.argv[2].replace('?', '').lower()))
+            self.params = dict(urllib.parse.parse_qsl(sys.argv[2].replace('?', '').lower()))
             log_msg("plugin called with parameters: %s" % self.params)
             self.main()
         except Exception as exc:
