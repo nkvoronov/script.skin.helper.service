@@ -142,7 +142,7 @@ class PluginContent:
         addontype = self.params.get("addontype", "")
         for item in get_resourceimages(addontype, True):
             listitem = xbmcgui.ListItem(item[0], label2=item[2], path=item[1])
-            listitem.setArt({"icon":item[3]})
+            listitem.setArt({"icon": item[3]})
             xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),
                                         url=item[1], listitem=listitem, isFolder=False)
         xbmcplugin.endOfDirectory(handle=int(sys.argv[1]))
@@ -289,7 +289,7 @@ class PluginContent:
         for cast in all_cast:
             if cast.get("name") not in all_cast_names:
                 liz = xbmcgui.ListItem(label=cast.get("name"), label2=cast.get("role"))
-                liz.setArt({"icon":cast.get("thumbnail")})
+                liz.setArt({"icon": cast.get("thumbnail")})
                 if extended_cast_action:
                     url = "RunScript(script.extendedinfo,info=extendedactorinfo,name=%s)" % cast.get("name")
                     url = "plugin://script.skin.helper.service/?action=launch&path=%s" % url
@@ -299,7 +299,7 @@ class PluginContent:
                     url = "plugin://script.skin.helper.service/?action=launch&path=%s" % urlencode(url)
                     is_folder = False
                 all_cast_names.append(cast.get("name"))
-                liz.setArt({"thumb":cast.get("thumbnail")})
+                liz.setArt({"thumb": cast.get("thumbnail")})
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=liz, isFolder=is_folder)
         xbmcplugin.endOfDirectory(int(sys.argv[1]))
 

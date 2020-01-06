@@ -224,7 +224,7 @@ class SkinSettings:
             listitem = xbmcgui.ListItem(label="..")
             listitem.setProperty("icon", "DefaultFolderBack.png")
             listitem.setProperty("value", "||BACK||")
-            listitem.setArt({"icon":"DefaultFolderBack.png"})
+            listitem.setArt({"icon": "DefaultFolderBack.png"})
             listitems.append(listitem)
             all_values = self.skinsettings.get(sublevel, [])
         elif original_id:
@@ -247,7 +247,7 @@ class SkinSettings:
                 listitem.setProperty("icon", icon)
                 listitem.setProperty("description", item["description"])
                 listitem.setProperty("onselectactions", repr(item["onselectactions"]))
-                listitem.setArt({"icon":icon})
+                listitem.setArt({"icon": icon})
                 listitems.append(listitem)
 
         # show select dialog

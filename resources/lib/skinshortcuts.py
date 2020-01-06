@@ -37,7 +37,7 @@ def add_directoryitem(entry, is_folder=True, widget=None, widget2=None):
     if is_folder:
         path = sys.argv[0] + "?action=SMARTSHORTCUTS&path=" + entry
         listitem = xbmcgui.ListItem(label, path=path)
-        listitem.setArt({"icon": 'DefaultFolder.png'})
+        listitem.setArt({"icon": "DefaultFolder.png"})
     else:
         listitem = xbmcgui.ListItem(label, path=path)
         props = {}
@@ -241,7 +241,7 @@ def get_widgets(item_filter="", sublevel=""):
             if widgets:
                 label = get_item_filter_label(item_filter)
                 listitem = xbmcgui.ListItem(label)
-                listitem.setArt({"icon":"DefaultFolder.png"})
+                listitem.setArt({"icon": "DefaultFolder.png"})
                 url = "plugin://script.skin.helper.service?action=widgets&path=%s" % item_filter
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=listitem, isFolder=True)
         else:
@@ -309,7 +309,8 @@ def get_widgets(item_filter="", sublevel=""):
                     props["widgetName"] = widget[0]
                     props["widget"] = item_filter
                     listitem.setInfo(type="Video", infoLabels={"Title": "smartshortcut"})
-                    listitem.setArt({"fanart": image, "thumb": image})
+                    listitem.setArt({"fanart": image})
+                    listitem.setArt({"thumb": image})
                     # we use the mpaa property to pass all properties to skinshortcuts
                     listitem.setInfo(type="Video", infoLabels={"mpaa": repr(props)})
                     xbmcplugin.addDirectoryItem(
@@ -358,7 +359,8 @@ def get_backgrounds():
     xbmcplugin.setContent(int(sys.argv[1]), 'files')
     for label, image in get_skinhelper_backgrounds():
         listitem = xbmcgui.ListItem(label, path=image)
-        listitem.setArt({"fanart": image, "thumb": image})
+        listitem.setArt({"fanart": image})
+        listitem.setArt({"thumb": image})
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=image, listitem=listitem, isFolder=False)
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
 

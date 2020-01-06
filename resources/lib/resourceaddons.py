@@ -32,13 +32,13 @@ def setresourceaddon(addontype, skinstring="", header=""):
     # none option
     listitem = xbmcgui.ListItem(label=addon.getLocalizedString(32001))
     listitem.setProperty("addonid", "none")
-    listitem.setArt({ 'icon':'DefaultAddonNone.png' })
+    listitem.setArt({"icon": "DefaultAddonNone.png"})
     listing.append(listitem)
 
     # custom path
     listitem = xbmcgui.ListItem(label=addon.getLocalizedString(32009))
     listitem.setProperty("addonid", "custom")
-    listitem.setArt({"icon":"DefaultFolder.png" })
+    listitem.setArt({"icon": "DefaultFolder.png"})
     listing.append(listitem)
 
     # available resource addons
@@ -47,7 +47,7 @@ def setresourceaddon(addontype, skinstring="", header=""):
         listitem = xbmcgui.ListItem(label=item["name"], label2=label2)
         listitem.setPath(item["path"])
         listitem.setProperty("addonid", item["addonid"])
-        listitem.setArt({"icon":item["thumbnail"]})
+        listitem.setArt({"icon": item["thumbnail"]})
         listing.append(listitem)
 
     # special skinhelper paths
@@ -56,7 +56,7 @@ def setresourceaddon(addontype, skinstring="", header=""):
         listitem = xbmcgui.ListItem(label=label, label2="Skin Helper Service")
         listitem.setPath("plugin://script.skin.helper.service/?action=moviegenrebackground&genre=")
         listitem.setProperty("addonid", "skinhelper.forgenre")
-        listitem.setArt({"icon":"special://home/addons/script.skin.helper.service/resources/icon.png"})
+        listitem.setArt({"icon": "special://home/addons/script.skin.helper.service/resources/icon.png"})
         listing.append(listitem)
 
     # show select dialog with choices
@@ -115,7 +115,7 @@ def downloadresourceaddons(addontype):
             listitem = xbmcgui.ListItem(label=item["name"], label2=label2)
             listitem.setPath(item["path"])
             listitem.setProperty("addonid", item["addonid"])
-            listitem.setArt({"icon":item["thumbnail"]})
+            listitem.setArt({"icon": item["thumbnail"]})
             listitems.append(listitem)
     # if no addons available show OK dialog..
     if not listitems:

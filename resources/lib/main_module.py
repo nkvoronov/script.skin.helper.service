@@ -150,7 +150,7 @@ class MainModule:
                     listitem = xbmcgui.ListItem(label=label)
                     listitem.setProperty("viewid", viewid)
                     listitem.setProperty("icon", image)
-                    listitem.setArt({"icon":image})
+                    listitem.setArt({"icon": image})
                     all_views.append(listitem)
                     itemcount += 1
         dialog = DialogSelect("DialogSelect.xml", "", listing=all_views,
@@ -182,7 +182,7 @@ class MainModule:
                 image = "special://skin/extras/viewthumbs/%s.jpg" % view_id
                 listitem = xbmcgui.ListItem(label=label, label2=desc)
                 listitem.setProperty("viewid", view_id)
-                listitem.setArt({"icon":image})
+                listitem.setArt({"icon": image})
                 if not getCondVisibility("Skin.HasSetting(SkinHelper.view.Disabled.%s)" % view_id):
                     listitem.select(selected=True)
                 excludefromdisable = False
@@ -250,7 +250,7 @@ class MainModule:
                         image = (media['art']['thumb'])
                 listitem = xbmcgui.ListItem(label=label, label2=label2)
                 listitem.setProperty("path", media["file"])
-                listitem.setArt({"icon":image})
+                listitem.setArt({"icon": image})
                 results.append(listitem)
 
         # finished lookup - display listing with results
