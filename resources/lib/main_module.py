@@ -232,6 +232,9 @@ class MainModule:
         del metadatautils
         return files
 
+    def jumptoletter(self):
+        xbmc.executebuiltin("SetFocus(8000)")
+
     def searchyoutube(self):
         '''helper to search youtube for the given title'''
         xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
