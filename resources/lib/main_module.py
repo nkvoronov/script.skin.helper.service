@@ -522,15 +522,15 @@ class MainModule:
         del_path = self.params.get("path")
         if del_path:
             ret = xbmcgui.Dialog().yesno(heading=xbmc.getLocalizedString(122),
-                                         line1="%s[CR]%s" % (xbmc.getLocalizedString(125), del_path))
+                                         message="%s[CR]%s" % (xbmc.getLocalizedString(125), del_path))
             if ret:
                 success = recursive_delete_dir(del_path)
                 if success:
                     xbmcgui.Dialog().ok(heading=xbmc.getLocalizedString(19179),
-                                        line1=self.addon.getLocalizedString(32014))
+                                        message=self.addon.getLocalizedString(32014))
                 else:
                     xbmcgui.Dialog().ok(heading=xbmc.getLocalizedString(16205),
-                                        line1=xbmc.getLocalizedString(32015))
+                                        message=xbmc.getLocalizedString(32015))
 
     def overlaytexture(self):
         '''legacy: helper to let the user choose a background overlay from a skin defined folder'''
@@ -587,7 +587,7 @@ class MainModule:
         headertxt = clean_string(self.params.get("header", ""))
         bodytxt = clean_string(self.params.get("message", ""))
         dialog = xbmcgui.Dialog()
-        dialog.ok(heading=headertxt, line1=bodytxt)
+        dialog.ok(heading=headertxt, message=bodytxt)
         del dialog
 
     def dialogyesno(self):
@@ -596,7 +596,7 @@ class MainModule:
         bodytxt = clean_string(self.params.get("message", ""))
         yesactions = self.params.get("yesaction", "").split("|")
         noactions = self.params.get("noaction", "").split("|")
-        if xbmcgui.Dialog().yesno(heading=headertxt, line1=bodytxt):
+        if xbmcgui.Dialog().yesno(heading=headertxt, message=bodytxt):
             for action in yesactions:
                 xbmc.executebuiltin(action)
         else:

@@ -165,7 +165,7 @@ def checkresourceaddons(addonslist):
             if not checkresourceaddon(setting, addontype):
                 ret = xbmcgui.Dialog().yesno(
                     heading=addon.getLocalizedString(32007) % addontypelabel,
-                    line1=addon.getLocalizedString(32008) % addontypelabel)
+                    message=addon.getLocalizedString(32008) % addontypelabel)
                 xbmc.executebuiltin("Skin.Reset(%s.path)" % setting)
                 if ret:
                     downloadresourceaddons(addontype)
