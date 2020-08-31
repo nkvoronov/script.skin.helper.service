@@ -297,7 +297,7 @@ class MainModule:
             while getCondVisibility("System.HasModalDialog | System.HasVisibleModalDialog"):
                 xbmc.executebuiltin("Action(Back)")
                 xbmc.sleep(300)
-            xbmc.executebuiltin(result.getfilename())
+            xbmc.executebuiltin(result.getPath())
             del result
 
     def setfocus(self):

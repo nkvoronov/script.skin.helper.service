@@ -61,10 +61,10 @@ class DialogVideoInfo(xbmcgui.WindowXMLDialog):
             # play button
             self.result = True
             self.close()
-            if "videodb:" in self.listitem.getfilename():
-                xbmc.executebuiltin('ReplaceWindow(Videos,"%s")' % self.listitem.getfilename())
+            if "videodb:" in self.listitem.getPath():
+                xbmc.executebuiltin('ReplaceWindow(Videos,"%s")' % self.listitem.getPath())
             else:
-                xbmc.executebuiltin('PlayMedia("%s")' % self.listitem.getfilename())
+                xbmc.executebuiltin('PlayMedia("%s")' % self.listitem.getPath())
         if controlid == 103:
             # trailer button
             pass

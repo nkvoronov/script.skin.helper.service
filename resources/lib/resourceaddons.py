@@ -89,7 +89,7 @@ def setresourceaddon(addontype, skinstring="", header=""):
                 custom_path = dialog.browse(0, addon.getLocalizedString(32005), 'files')
                 del dialog
                 result.setPath(custom_path)
-            addonpath = result.getfilename()
+            addonpath = result.getPath()
             if addonpath:
                 is_multi, extension = get_multi_extension(addonpath)
                 xbmc.executebuiltin('Skin.SetString(%s,%s)' % (skinstring, addonpath))

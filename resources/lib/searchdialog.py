@@ -233,9 +233,9 @@ class SearchDialog(xbmcgui.WindowXMLDialog):
         '''open selected item'''
         control_id = self.getFocusId()
         listitem = self.getControl(control_id).getSelectedItem()
-        if "videodb:" in listitem.getfilename():
+        if "videodb:" in listitem.getPath():
             # tvshow: open path
-            xbmc.executebuiltin('ReplaceWindow(Videos,"%s")' % self.listitem.getfilename())
+            xbmc.executebuiltin('ReplaceWindow(Videos,"%s")' % self.listitem.getPath())
             self.close_dialog()
         elif "actor" in listitem.getProperty("DBTYPE"):
             # cast dialog
@@ -258,11 +258,11 @@ class SearchDialog(xbmcgui.WindowXMLDialog):
             result = dialog.result
             del dialog
             if result:
-                xbmc.executebuiltin(result.getfilename())
+                xbmc.executebuiltin(result.getPath())
                 self.close_dialog()
         else:
             # video file: start playback
-            xbmc.executebuiltin('PlayMedia("%s")' % listitem.getfilename())
+            xbmc.executebuiltin('PlayMedia("%s")' % listitem.getPath())
             self.close_dialog()
 
 

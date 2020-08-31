@@ -486,7 +486,7 @@ class SkinSettings:
                 else:
                     return self.selectimage()
             # return values
-            return (result.getLabel(), result.getfilename())
+            return (result.getLabel(), result.getPath())
         # return empty values
         return ("", "")
 
