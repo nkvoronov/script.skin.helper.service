@@ -235,7 +235,7 @@ class ListItemMonitor(threading.Thread):
                     kodi_json('Settings.SetSettingValue', {"setting": "screensaver.mode", "value": None})
                     log_msg(
                         "Disabled screensaver while fullscreen music playback - previous setting: %s" %
-                        self.screensaver_setting, xbmc.LOGNOTICE)
+                        self.screensaver_setting, xbmc.LOGINFO)
         elif self.screensaver_disabled and self.screensaver_setting:
             # enable screensaver again after fullscreen music playback was ended
             kodi_json('Settings.SetSettingValue', {"setting": "screensaver.mode", "value": self.screensaver_setting})
@@ -243,7 +243,7 @@ class ListItemMonitor(threading.Thread):
             self.screensaver_setting = None
             log_msg(
                 "fullscreen music playback ended - restoring screensaver: %s" %
-                self.screensaver_setting, xbmc.LOGNOTICE)
+                self.screensaver_setting, xbmc.LOGINFO)
 
     @staticmethod
     def check_osd():
