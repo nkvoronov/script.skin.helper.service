@@ -39,14 +39,14 @@ class SkinSettings:
 
     def write_skin_constants(self, constants=None, variables=None):
         '''writes the list of all skin constants'''
-        addonpath = xbmc.translatePath(os.path.join("special://skin/", 'addon.xml'))
+        addonpath = xbmcvfs.translatePath(os.path.join("special://skin/", 'addon.xml'))
         addon = xmltree.parse(addonpath)
         extensionpoints = addon.findall("extension")
         for extensionpoint in extensionpoints:
             if extensionpoint.attrib.get("point") == "xbmc.gui.skin":
                 resolutions = extensionpoint.findall("res")
                 for resolution in resolutions:
-                    includes_file = xbmc.translatePath(
+                    includes_file = xbmcvfs.translatePath(
                         os.path.join(
                             "special://skin/",
                             resolution.attrib.get("folder"),
@@ -82,14 +82,14 @@ class SkinSettings:
         '''gets a list of all skin constants as set in the special xml file'''
         all_constants = {}
         all_variables = {}
-        addonpath = xbmc.translatePath(os.path.join("special://skin/", 'addon.xml'))
+        addonpath = xbmcvfs.translatePath(os.path.join("special://skin/", 'addon.xml'))
         addon = xmltree.parse(addonpath)
         extensionpoints = addon.findall("extension")
         for extensionpoint in extensionpoints:
             if extensionpoint.attrib.get("point") == "xbmc.gui.skin":
                 resolutions = extensionpoint.findall("res")
                 for resolution in resolutions:
-                    includes_file = xbmc.translatePath(
+                    includes_file = xbmcvfs.translatePath(
                         os.path.join(
                             "special://skin/",
                             resolution.attrib.get("folder"),
@@ -152,7 +152,7 @@ class SkinSettings:
     def get_skin_settings():
         '''get the complete list of all settings defined in the special skinsettings file'''
         all_skinsettings = {}
-        settings_file = xbmc.translatePath('special://skin/extras/skinsettings.xml')
+        settings_file = xbmcvfs.translatePath('special://skin/extras/skinsettings.xml')
         if xbmcvfs.exists(settings_file):
             doc = parse(settings_file)
             listing = doc.documentElement.getElementsByTagName('setting')
