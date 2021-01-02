@@ -9,6 +9,7 @@ import os, sys
 import xbmc
 import xbmcgui
 from metadatautils import MetadataUtils
+from utils import try_decode
 
 # pylint: disable-msg=invalid-constant-name
 
@@ -18,15 +19,15 @@ if __name__ == '__main__':
     ##### PVR Artwork ########
     win = xbmcgui.Window(10000)
     win.setProperty("SkinHelper.Artwork.ManualLookup", "busy")
-    xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
-    title = xbmc.getInfoLabel("ListItem.Title")
+    xbmc.executebuiltin("ActivateWindow(busydialog)")
+    title = try_decode(xbmc.getInfoLabel("ListItem.Title"))
     if not title:
-        title = xbmc.getInfoLabel("ListItem.Label")
-    channel = xbmc.getInfoLabel("ListItem.ChannelName")
-    genre = xbmc.getInfoLabel("ListItem.Genre")
+        title = try_decode(xbmc.getInfoLabel("ListItem.Label"))
+    channel = try_decode(xbmc.getInfoLabel("ListItem.ChannelName"))
+    genre = try_decode(xbmc.getInfoLabel("ListItem.Genre"))
     metadatautils = MetadataUtils()
     metadatautils.pvr_artwork_options(title, channel, genre)
-    xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
+    xbmc.executebuiltin("Dialog.Close(busydialog)")
     win.clearProperty("SkinHelper.Artwork.ManualLookup")
     metadatautils.close()
     del win

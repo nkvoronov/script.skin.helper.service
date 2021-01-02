@@ -61,8 +61,12 @@ class Root:
         mediatype = params["mediatype"]
         randomize = params["randomize"]
         artwork = {}
-        lib_path = "plugin://script.skin.helper.service/?action=genrebackground"\
-            "&genre=%s&arttype=%s&mediatype=%s&random=%s" % (genre, arttype, mediatype, randomize)
+        if sys.version_info.major == 3:
+            lib_path = "plugin://script.skin.helper.service/?action=genrebackground"\
+                "&genre=%s&arttype=%s&mediatype=%s&random=%s" % (genre, arttype, mediatype, randomize)
+        else:
+            lib_path = u"plugin://script.skin.helper.service/?action=genrebackground"\
+                "&genre=%s&arttype=%s&mediatype=%s&random=%s" % (genre, arttype, mediatype, randomize)
         for count, item in enumerate(self.__mutils.kodidb.files(lib_path, limits=(0, 5))):
             artwork["%s.%s" % (arttype, count)] = item["file"]
         return self.handle_artwork(artwork, params)
@@ -234,10 +238,11 @@ class WebService(threading.Thread):
 
     def __init__(self, metadatautils):
         self.__root = Root(metadatautils)
+        #engine.timeout_monitor removed from cherrypy
         cherrypy.config.update({
             'engine.autoreload.on' : False,
             'log.screen': False,
-            'engine.timeout_monitor.frequency': 5,
+            #'engine.timeout_monitor.frequency': 5,
             'server.shutdown_timeout': 1,
         })
         threading.Thread.__init__(self)
@@ -256,4 +261,4 @@ class WebService(threading.Thread):
         cherrypy.engine.exit()
         self.join(0)
         del self.__root
-
+ 

@@ -9,7 +9,7 @@
 '''
 
 import os, sys
-from resources.lib.utils import kodi_json, log_msg, urlencode, ADDON_ID, getCondVisibility
+from resources.lib.utils import kodi_json, log_msg, urlencode, ADDON_ID, getCondVisibility, try_encode, try_decode
 from metadatautils import MetadataUtils
 import xbmc
 import xbmcvfs
@@ -37,7 +37,7 @@ def add_directoryitem(entry, is_folder=True, widget=None, widget2=None):
     if is_folder:
         path = sys.argv[0] + "?action=SMARTSHORTCUTS&path=" + entry
         listitem = xbmcgui.ListItem(label, path=path)
-        listitem.setArt({"icon": "DefaultFolder.png"})
+        listitem.setArt({"icon": 'DefaultFolder.png'})
     else:
         listitem = xbmcgui.ListItem(label, path=path)
         props = {}
@@ -240,8 +240,7 @@ def get_widgets(item_filter="", sublevel=""):
             # only show main listing for this category...
             if widgets:
                 label = get_item_filter_label(item_filter)
-                listitem = xbmcgui.ListItem(label)
-                listitem.setArt({"icon": "DefaultFolder.png"})
+                listitem = xbmcgui.ListItem(label, iconImage="DefaultFolder.png")
                 url = "plugin://script.skin.helper.service?action=widgets&path=%s" % item_filter
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=listitem, isFolder=True)
         else:
@@ -309,8 +308,7 @@ def get_widgets(item_filter="", sublevel=""):
                     props["widgetName"] = widget[0]
                     props["widget"] = item_filter
                     listitem.setInfo(type="Video", infoLabels={"Title": "smartshortcut"})
-                    listitem.setArt({"fanart": image})
-                    listitem.setArt({"thumb": image})
+                    listitem.setArt({"fanart": image, "thumb": image})
                     # we use the mpaa property to pass all properties to skinshortcuts
                     listitem.setInfo(type="Video", infoLabels={"mpaa": repr(props)})
                     xbmcplugin.addDirectoryItem(
@@ -359,8 +357,7 @@ def get_backgrounds():
     xbmcplugin.setContent(int(sys.argv[1]), 'files')
     for label, image in get_skinhelper_backgrounds():
         listitem = xbmcgui.ListItem(label, path=image)
-        listitem.setArt({"fanart": image})
-        listitem.setArt({"thumb": image})
+        listitem.setArt({"fanart": image, "thumb": image})
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=image, listitem=listitem, isFolder=False)
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
@@ -378,9 +375,9 @@ def playlists_widgets():
                 if item["file"].endswith(".xsp"):
                     playlist = item["file"]
                     contents = xbmcvfs.File(item["file"], 'r')
-                    contents_data = contents.read()
+                    contents_data = try_decode(contents.read())
                     contents.close()
-                    xmldata = xmltree.fromstring(contents_data)
+                    xmldata = xmltree.fromstring(try_encode(contents_data))
                     media_type = ""
                     label = item["label"]
                     for line in xmldata.getiterator():
@@ -507,16 +504,16 @@ def set_skinshortcuts_property(property_name="", value="", label=""):
     if value or label:
         wait_for_skinshortcuts_window()
         xbmc.sleep(250)
-        xbmc.executebuiltin("SetProperty(customProperty,%s)" % property_name)
-        xbmc.executebuiltin("SetProperty(customValue,%s)" % value)
+        xbmc.executebuiltin("SetProperty(customProperty,%s)" % try_encode(property_name))
+        xbmc.executebuiltin("SetProperty(customValue,%s)" % try_encode(value))
         xbmc.executebuiltin("SendClick(404)")
         xbmc.sleep(250)
-        xbmc.executebuiltin("SetProperty(customProperty,%s.name)" % property_name)
-        xbmc.executebuiltin("SetProperty(customValue,%s)" % label)
+        xbmc.executebuiltin("SetProperty(customProperty,%s.name)" % try_encode(property_name))
+        xbmc.executebuiltin("SetProperty(customValue,%s)" % try_encode(label))
         xbmc.executebuiltin("SendClick(404)")
         xbmc.sleep(250)
-        xbmc.executebuiltin("SetProperty(customProperty,%sName)" % property_name)
-        xbmc.executebuiltin("SetProperty(customValue,%s)" % label)
+        xbmc.executebuiltin("SetProperty(customProperty,%sName)" % try_encode(property_name))
+        xbmc.executebuiltin("SetProperty(customValue,%s)" % try_encode(label))
         xbmc.executebuiltin("SendClick(404)")
 
 def wait_for_skinshortcuts_window():

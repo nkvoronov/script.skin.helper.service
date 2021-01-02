@@ -13,7 +13,8 @@ import os, sys
 import xbmc
 import xbmcgui
 from metadatautils import MetadataUtils
-from resources.lib.utils import get_current_content_type, getCondVisibility
+from resources.lib.utils import get_current_content_type, getCondVisibility, try_decode
+
 
 CANCEL_DIALOG = (9, 10, 92, 216, 247, 257, 275, 61467, 61448, )
 ACTION_SHOW_INFO = (11, )
@@ -61,10 +62,10 @@ class DialogVideoInfo(xbmcgui.WindowXMLDialog):
             # play button
             self.result = True
             self.close()
-            if "videodb:" in self.listitem.getPath():
-                xbmc.executebuiltin('ReplaceWindow(Videos,"%s")' % self.listitem.getPath())
+            if "videodb:" in self.listitem.getfilename():
+                xbmc.executebuiltin('ReplaceWindow(Videos,"%s")' % self.listitem.getfilename())
             else:
-                xbmc.executebuiltin('PlayMedia("%s")' % self.listitem.getPath())
+                xbmc.executebuiltin('PlayMedia("%s")' % self.listitem.getfilename())
         if controlid == 103:
             # trailer button
             pass
@@ -79,17 +80,17 @@ class DialogVideoInfo(xbmcgui.WindowXMLDialog):
 
 def get_cur_listitem(cont_prefix):
     '''gets the current selected listitem details'''
-    if getCondVisibility("Window.IsActive(busydialognocancel)"):
-        xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
+    if getCondVisibility("Window.IsActive(busydialog)"):
+        xbmc.executebuiltin("Dialog.Close(busydialog)")
         xbmc.sleep(500)
-    dbid = xbmc.getInfoLabel("%sListItem.DBID" % cont_prefix)
+    dbid = try_decode(xbmc.getInfoLabel("%sListItem.DBID" % cont_prefix))
     if not dbid or dbid == "-1":
-        dbid = xbmc.getInfoLabel("%sListItem.Property(DBID)" % cont_prefix)
+        dbid = try_decode(xbmc.getInfoLabel("%sListItem.Property(DBID)" % cont_prefix))
         if dbid == "-1":
             dbid = ""
-    dbtype = xbmc.getInfoLabel("%sListItem.DBTYPE" % cont_prefix)
+    dbtype = try_decode(xbmc.getInfoLabel("%sListItem.DBTYPE" % cont_prefix))
     if not dbtype:
-        dbtype = xbmc.getInfoLabel("%sListItem.Property(DBTYPE)" % cont_prefix)
+        dbtype = try_decode(xbmc.getInfoLabel("%sListItem.Property(DBTYPE)" % cont_prefix))
     if not dbtype:
         dbtype = get_current_content_type(cont_prefix)
     return (dbid, dbtype)
@@ -125,14 +126,14 @@ def show_infodialog(dbid="", media_type=""):
 
     # only proceed if we have a media_type
     if media_type:
-        title = xbmc.getInfoLabel("%sListItem.Title" % cont_prefix)
+        title = try_decode(xbmc.getInfoLabel("%sListItem.Title" % cont_prefix))
         # music content
         if media_type in ["album", "artist", "song"]:
-            artist = xbmc.getInfoLabel("%sListItem.AlbumArtist" % cont_prefix)
+            artist = try_decode(xbmc.getInfoLabel("%sListItem.AlbumArtist" % cont_prefix))
             if not artist:
-                artist = xbmc.getInfoLabel("%sListItem.Artist" % cont_prefix)
-            album = xbmc.getInfoLabel("%sListItem.Album" % cont_prefix)
-            disc = xbmc.getInfoLabel("%sListItem.DiscNumber" % cont_prefix)
+                artist = try_decode(xbmc.getInfoLabel("%sListItem.Artist" % cont_prefix))
+            album = try_decode(xbmc.getInfoLabel("%sListItem.Album" % cont_prefix))
+            disc = try_decode(xbmc.getInfoLabel("%sListItem.DiscNumber" % cont_prefix))
             if artist:
                 item_details = metadatautils.extend_dict(item_details, metadatautils.get_music_artwork(artist, album, title, disc))
         # movieset
@@ -140,7 +141,7 @@ def show_infodialog(dbid="", media_type=""):
             item_details = metadatautils.extend_dict(item_details, metadatautils.get_moviesetdetails(dbid))
         # pvr item
         elif media_type in ["tvchannel", "tvrecording", "channel", "recording"]:
-            channel = xbmc.getInfoLabel("%sListItem.ChannelName" % cont_prefix)
+            channel = try_decode(xbmc.getInfoLabel("%sListItem.ChannelName" % cont_prefix))
             genre = xbmc.getInfoLabel("%sListItem.Genre" % cont_prefix)
             item_details["type"] = media_type
             item_details = metadatautils.extend_dict(item_details, metadatautils.get_pvr_artwork(title, channel, genre))

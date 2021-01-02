@@ -10,7 +10,8 @@
 import os, sys
 import xbmcgui
 import xbmc
-from resources.lib.utils import getCondVisibility
+from resources.lib.utils import getCondVisibility, try_decode
+
 
 class DialogSelect(xbmcgui.WindowXMLDialog):
     '''Wrapper around Kodi dialogselect to use for the custom skin settings etc.'''
@@ -67,7 +68,7 @@ class DialogSelect(xbmcgui.WindowXMLDialog):
         if self.autofocus_label:
             try:
                 for count, item in enumerate(self.listing):
-                    if item.getLabel() == self.autofocus_label:
+                    if try_decode(item.getLabel()) == self.autofocus_label:
                         self.list_control.selectItem(count)
             except Exception:
                 self.list_control.selectItem(0)
@@ -103,7 +104,10 @@ class DialogSelect(xbmcgui.WindowXMLDialog):
                 self.close_dialog()
             else:
                 # OK button
-                from .resourceaddons import downloadresourceaddons
+                if sys.version_info.major == 3:
+                    from .resourceaddons import downloadresourceaddons
+                else:
+                    from resourceaddons import downloadresourceaddons
                 downloadresourceaddons(self.getmorebutton)
                 self.result = True
                 self.close()

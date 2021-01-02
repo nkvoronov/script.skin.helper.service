@@ -9,8 +9,11 @@
 
 import os, sys
 import threading
-import _thread as thread
-from resources.lib.utils import getCondVisibility
+if sys.version_info.major == 3:
+    import _thread as thread
+else
+    import thread
+from resources.lib.utils import getCondVisibility, try_decode
 import xbmc
 import xbmcgui
 from metadatautils import MetaDataUtils
@@ -233,16 +236,19 @@ class SearchDialog(xbmcgui.WindowXMLDialog):
         '''open selected item'''
         control_id = self.getFocusId()
         listitem = self.getControl(control_id).getSelectedItem()
-        if "videodb:" in listitem.getPath():
+        if "videodb:" in listitem.getfilename():
             # tvshow: open path
-            xbmc.executebuiltin('ReplaceWindow(Videos,"%s")' % self.listitem.getPath())
+            xbmc.executebuiltin('ReplaceWindow(Videos,"%s")' % self.listitem.getfilename())
             self.close_dialog()
         elif "actor" in listitem.getProperty("DBTYPE"):
             # cast dialog
-            xbmc.executebuiltin("ActivateWindow(busydialognocancel)")
-            from .dialogselect import DialogSelect
+            xbmc.executebuiltin("ActivateWindow(busydialog)")
+            if sys.version_info.major == 3:
+                from .dialogselect import DialogSelect
+            else:
+                from dialogselect import DialogSelect
             results = []
-            name = listitem.getLabel()
+            name = try_decode(listitem.getLabel())
             items = self.mutils.kodidb.castmedia(name)
             items = self.mutils.process_method_on_list(self.mutils.kodidb.prepare_listitem, items)
             for item in items:
@@ -252,17 +258,17 @@ class SearchDialog(xbmcgui.WindowXMLDialog):
                     item["file"] = 'PlayMedia("%s")' % item["file"]
                 results.append(self.mutils.kodidb.create_listitem(item, False))
             # finished lookup - display listing with results
-            xbmc.executebuiltin("Dialog.Close(busydialognocancel)")
+            xbmc.executebuiltin("dialog.Close(busydialog)")
             dialog = DialogSelect("DialogSelect.xml", "", listing=results, windowtitle=name, richlayout=True)
             dialog.doModal()
             result = dialog.result
             del dialog
             if result:
-                xbmc.executebuiltin(result.getPath())
+                xbmc.executebuiltin(result.getfilename())
                 self.close_dialog()
         else:
             # video file: start playback
-            xbmc.executebuiltin('PlayMedia("%s")' % listitem.getPath())
+            xbmc.executebuiltin('PlayMedia("%s")' % listitem.getfilename())
             self.close_dialog()
 
 
